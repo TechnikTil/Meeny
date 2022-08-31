@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const token = process.env['token']
+const token = process.env['tokenBETA']
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
