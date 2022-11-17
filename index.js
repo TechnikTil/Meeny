@@ -1,3 +1,10 @@
+var http = require('http');
+
+http.createServer(function(req,res) {
+  res.write("Meeny BETA might be online now");
+  res.end();
+}).listen(8080);
+
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
