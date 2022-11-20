@@ -3,6 +3,8 @@ const path = require('node:path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord.js');
 const { clientId, guildId } = require('./config.json');
+
+require("dotenv").config();
 const token = process.env['tokenBETA']
 
 const commands = [];
