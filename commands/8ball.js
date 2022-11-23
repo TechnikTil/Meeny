@@ -9,10 +9,12 @@ module.exports = {
         var question = interaction.options.getString('question');
         var possibleAnswers = ['Yes', 'No', 'Maybe', "I don't know", 'Try Asking Again'];
         var answer = Math.floor(Math.random() * 6);
+
         var eightBallEmbed = new EmbedBuilder()
-        .setTitle(`Meeny's 8Ball!`)
-        .setDescription(`**${interaction.user.username}** asked "${question}"\n The answer is... ${possibleAnswers[answer]}`)
-        .setFooter({ text: `Requested by: ${interaction.user.username}` });
+            .setTitle(`Meeny's 8Ball!`)
+            .setDescription(`**${interaction.user.username}** asked "${question}"\n The answer is... ${possibleAnswers[answer]}`)
+            .setFooter({ text: `Requested by: **${interaction.user.username}**` });
         await interaction.reply({ embeds: [eightBallEmbed] });
+        console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}, Question: ${question}, Answer: ${possibleAnswers[answer]}`);
     },
 };
