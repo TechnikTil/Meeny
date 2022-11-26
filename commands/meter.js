@@ -13,7 +13,7 @@ module.exports = {
 
         var meterEmbed = new EmbedBuilder()
             .setTitle(`Meeny's ${meter} Meter!`)
-            .setDescription(`**${interaction.user.username}** has a **${meter}** meter at \`${item}\` ${result}%`)
+            .setDescription(`**${interaction.user.username}** has a **${meter}** meter at **${item}** ${result}%`)
             .setFooter({ text: `Requested by: **${interaction.user.username}**` });
         await interaction.reply({ embeds: [meterEmbed] });
         console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}, Meter: ${meter}, Item: ${item}, Result: ${result}`);
