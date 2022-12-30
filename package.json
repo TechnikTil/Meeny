@@ -6,6 +6,7 @@
     "dependencies": {
         "@discordjs/rest": "^1.0.1",
         "data-uri-to-buffer": "^4.0.0",
+        "discord-rpc": "^4.0.1",
         "discord.js": "^14.7.1",
         "dotenv": "^16.0.3",
         "fetch-blob": "^3.1.5",

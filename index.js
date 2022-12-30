@@ -1,5 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const rpc = require("discord-rpc");
+const rpcclient = new rpc.Client({ transport: 'ipc' });
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
 require("dotenv").config();
@@ -20,6 +22,28 @@ for (const file of commandFiles) {
 client.once('ready', () => {
     console.log('Ready!');
 });
+
+rpcclient.login({ clientId: "1058203506072367107" }).catch(console.error);
+
+rpcclient.on('ready', () => {
+    console.log('Discord Presence now active!')
+    rpcclient.request('SET_ACTIVITY', {
+        pid: process.pid,
+        activity: {
+            details: "Running BETA Version",
+            state: "Currently running Meeny",
+            timestamps: {
+                start: Date.now()
+            },
+            assets: {
+                large_image: "meeny-beta-magik",
+                large_text: "Meeny BETA",
+                //small_image: config.SmallImage,
+                //small_text: config.SmallImageText,
+            }
+        }
+    })
+})
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
