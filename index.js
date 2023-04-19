@@ -5,6 +5,7 @@ const rpcclient = new rpc.Client({ transport: 'ipc' });
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
 require("dotenv").config();
+const blocked = process.env['blockList']
 const token = process.env['tokenBETA']
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -20,10 +21,10 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-    console.log('Ready!');
+    console.log('Meeny BETA is now online!');
 });
 
-rpcclient.login({ clientId: "1058203506072367107" }).catch(console.error);
+rpcclient.login({ clientId: "1058203506072367107" }).catch('Error with RPC! ' + console.error);
 
 rpcclient.on('ready', () => {
     console.log('Discord Presence now active!')
@@ -53,7 +54,10 @@ client.on('interactionCreate', async interaction => {
     if (!command) return;
 
     try {
-        await command.execute(interaction);
+        if (blocked.includes(interaction.user.id))
+            await interaction.reply({ content: 'Uh oh, You are on Meeny\'s Block List! If you think this is a mistake, Try contacting support in https://discord.gg/fVWFzyr9tg.', ephemeral: true });
+        else
+            await command.execute(interaction);
     } catch (error) {
         console.error(error);
         await interaction.reply({ content: 'There was an error while using this command!', ephemeral: true });

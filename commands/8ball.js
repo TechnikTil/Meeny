@@ -13,7 +13,7 @@ module.exports = {
         var eightBallEmbed = new EmbedBuilder()
             .setTitle(`Meeny's 8Ball!`)
             .setDescription(`**${interaction.user.username}** asked "${question}"\n The answer is... ${possibleAnswers[answer]}`)
-            .setFooter({ text: `Requested by: **${interaction.user.username}**` });
+            .setFooter({ text: `Requested by: ${interaction.user.username}` });
         await interaction.reply({ embeds: [eightBallEmbed] });
         console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}, Question: ${question}, Answer: ${possibleAnswers[answer]}`);
     },

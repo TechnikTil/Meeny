@@ -12,7 +12,7 @@ module.exports = {
         var chanceEmbed = new EmbedBuilder()
             .setTitle(`Chances of...`)
             .setDescription(`The chances of **${interaction.user.username} ${chance}** is ${result}%`)
-            .setFooter({ text: `Requested by: **${interaction.user.username}**` });
+            .setFooter({ text: `Requested by: ${interaction.user.username}` });
         await interaction.reply({ embeds: [chanceEmbed] });
         console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}, Chances of: ${chance}, Result: ${result}`);
     },
