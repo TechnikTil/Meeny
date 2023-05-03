@@ -10,7 +10,7 @@ also made with discord.js and node.js and whatever
 5. Click/Tap Add Bot
 6. Done!
 
-## **Adding the Bot to your  server**
+## **Adding the Bot to your server**
 1. After creating the bot you should now go to **OAuth2 > URL Generator**
 2. Click **Bot**
 3. Set up any Permissions your bot may need, If you need then the Default Permissions are: ![image](https://user-images.githubusercontent.com/90648119/204411506-260999cd-ebc4-4c09-aa9d-f909363a729b.png)

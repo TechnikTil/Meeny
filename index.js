@@ -25,29 +25,8 @@ for (const file of commandFiles) {
 client.once('ready', () => {
     console.log('Meeny BETA is now online!');
     client.user.setActivity('with your mom lol', { type: ActivityType.Playing });
+    client.user.setStatus('dnd');
 });
-
-rpcclient.login({ clientId: "1058203506072367107" }).catch('Error with RPC! ' + console.error);
-
-rpcclient.on('ready', () => {
-    console.log('Discord Presence now active!')
-    rpcclient.request('SET_ACTIVITY', {
-        pid: process.pid,
-        activity: {
-            details: "Running BETA Version",
-            state: "Currently running Meeny",
-            timestamps: {
-                start: Date.now()
-            },
-            assets: {
-                large_image: "meeny-beta-magik",
-                large_text: "Meeny BETA",
-                //small_image: config.SmallImage,
-                //small_text: config.SmallImageText,
-            }
-        }
-    })
-})
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
@@ -58,7 +37,7 @@ client.on('interactionCreate', async interaction => {
 
     try {
         if (blocked.includes(interaction.user.id))
-            await interaction.reply({ content: 'Uh oh, You are on Meeny\'s Block List! If you think this is a mistake, Try contacting support in https://discord.gg/fVWFzyr9tg.', ephemeral: true });
+            await interaction.reply({ content: 'Uh oh, You\'re on Meeny\'s Block List! If you think this is a mistake, Try contacting support in https://discord.gg/fVWFzyr9tg.', ephemeral: true });
         else
             await command.execute(interaction);
     } catch (error) {
