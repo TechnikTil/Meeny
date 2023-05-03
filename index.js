@@ -10,6 +10,8 @@ const token = process.env['tokenBETA']
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
+const { ActivityType } = require('discord.js');
+
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -22,6 +24,7 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
     console.log('Meeny BETA is now online!');
+    client.user.setActivity('with your mom lol', { type: ActivityType.Playing });
 });
 
 rpcclient.login({ clientId: "1058203506072367107" }).catch('Error with RPC! ' + console.error);
