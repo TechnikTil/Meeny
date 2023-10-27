@@ -10,7 +10,7 @@ module.exports = {
         var possibleAnswers = ['Yes', 'No', 'Maybe', "I don't know", 'Try Asking Again'];
         var answer = Math.floor(Math.random() * 6);
 
-        var eightBallEmbed = new EmbedBuilder()
+        const eightBallEmbed = new EmbedBuilder()
             .setTitle(`Meeny's 8Ball!`)
             .setDescription(`**${interaction.user.username}** asked "${question}"\n And the answer is... ${possibleAnswers[answer]}`)
             .setFooter({ text: `Requested by: ${interaction.user.username}` });

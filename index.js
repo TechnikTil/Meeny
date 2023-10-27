@@ -23,26 +23,34 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-    console.log('Meeny BETA is now online!');
+    console.log(`${client.user.tag} is now online!`);
     client.user.setActivity('with your mom lol', { type: ActivityType.Playing });
     client.user.setStatus('dnd');
 });
 
 client.on('interactionCreate', async interaction => {
-    if (!interaction.isChatInputCommand()) return;
+    if (interaction.isChatInputCommand()) {
 
     const command = client.commands.get(interaction.commandName);
 
-    if (!command) return;
+    if (!command) {
+        console.error(`No command matching ${interaction.commandName} was found.`);
+        return;
+    }
 
-    try {
-        if (blocked.includes(interaction.user.id))
-            await interaction.reply({ content: 'Uh oh, You\'re on Meeny\'s Block List! If you think this is a mistake, Try contacting support in https://discord.gg/fVWFzyr9tg.', ephemeral: true });
-        else
-            await command.execute(interaction);
-    } catch (error) {
-        console.error(error);
-        await interaction.reply({ content: 'There was an error while using this command!', ephemeral: true });
+        try {
+            if (blocked.includes(interaction.user.id))
+                await interaction.reply({ content: 'Uh oh, You\'re on Meeny\'s Block List! If you think this is a mistake, Try contacting support in https://discord.gg/fVWFzyr9tg.', ephemeral: true });
+            else
+                await command.execute(interaction);
+        } catch (error) {
+            console.error(error);
+            await interaction.reply({ content: 'There was an error while using this command!', ephemeral: true });
+        }
+    } else if (interaction.isButton()) {
+        // respond to the button
+    } else if (interaction.isStringSelectMenu()) {
+        // respond to the select menu
     }
 });
 

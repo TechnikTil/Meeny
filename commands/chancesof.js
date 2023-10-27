@@ -9,9 +9,9 @@ module.exports = {
         var chance = interaction.options.getString('chance');
         var result = Math.floor(Math.random() * 101);
 
-        var chanceEmbed = new EmbedBuilder()
+        const chanceEmbed = new EmbedBuilder()
             .setTitle(`Chances of...`)
-            .setDescription(`The chances of ${chance}** is ${result}%`)
+            .setDescription(`The chances of **${chance}** is **${result}%**`)
             .setFooter({ text: `Requested by: ${interaction.user.username}` });
         await interaction.reply({ embeds: [chanceEmbed] });
         console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}, Chances of: ${chance}, Result: ${result}`);

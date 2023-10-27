@@ -11,7 +11,7 @@ module.exports = {
         var item = interaction.options.getString('item');
         var result = Math.floor(Math.random() * 101);
 
-        var meterEmbed = new EmbedBuilder()
+        const meterEmbed = new EmbedBuilder()
             .setTitle(`Meeny's ${meter} Meter!`)
             .setDescription(`**${interaction.user.username}** has a **${meter}** meter at **${item}** ${result}%`)
             .setFooter({ text: `Requested by: ${interaction.user.username}` });
