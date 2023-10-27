@@ -24,7 +24,7 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
     console.log(`${client.user.tag} is now online!`);
-    client.user.setActivity('with your mom lol', { type: ActivityType.Playing });
+    client.user.setActivity('with your mom/dad lol', { type: ActivityType.Playing });
     client.user.setStatus('dnd');
 });
 

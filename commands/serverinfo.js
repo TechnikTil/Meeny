@@ -8,7 +8,7 @@ module.exports = {
         // Info Menu
 		const infoSelect = new StringSelectMenuBuilder()
 			.setCustomId('infoSelect')
-			.setPlaceholder('Click Me!')
+			.setPlaceholder('Click/Tap Me!')
 			.addOptions(
 				new StringSelectMenuOptionBuilder()
 					.setLabel('Server Info')
@@ -50,12 +50,12 @@ module.exports = {
                 if (value === "serverI")
                 {
                     await i.update({ embeds: [serverEmbed], components: [row] });
-                    console.log(`${interaction.user.username} Picked Server Info! - serverinfo.js`)
+                    console.log(`${interaction.user.username} selected Server Info! - serverinfo.js`)
                 }
                 if (value === "membersI")
                 {
                     await i.update({ embeds: [membersEmbed], components: [row] });
-                    console.log(`${interaction.user.username} Picked Members Info! - serverinfo.js`)
+                    console.log(`${interaction.user.username} selected Members Info! - serverinfo.js`)
                 }
             }
         });
