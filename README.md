@@ -27,6 +27,7 @@ also made with discord.js and node.js and whatever
 **If you haven't already then get the code from this github**
 1. Create a New File named **.env**
 2. Type `tokenBETA=` and then Paste the Bot Token (from your bot's application on the [Discord Developer Portal](https://discord.com/developers/applications))
-3. Open **config.json** and replace the `clientId` with your bots client id (You can get it by opening up the [Discord Developer Portal](https://discord.com/developers/applications) and going to your Bot Application then copy `APPLICATION ID`)
-4. Open up Command Prompt or something like that then run `node deploy-commands.js` (You will know if its successful if it says `Successfully registered application commands.`)
-5. Run `node .` and it should return `Ready!` in the console log, the bot will also be online
+3. Also make sure to type `blockList=[]` below the token so that the bot can run
+4. Open **config.json** and replace the `clientId` with your bots client id (You can get it by opening up the [Discord Developer Portal](https://discord.com/developers/applications) and going to your Bot Application then copy `APPLICATION ID`)
+5. Open up Command Prompt or something like that then run `node deploy-commands.js` (You will know if its successful if it says `Successfully registered application commands.`)
+6. Run `node .` and it should return `Bot#0000 is now online!` in the console log, the bot will also be online
