@@ -1,2 +1,4 @@
 # Obviously we know why this is Git Ignored
 .env
+
+node_modules/
