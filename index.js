@@ -1,7 +1,5 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const rpc = require("discord-rpc");
-const rpcclient = new rpc.Client({ transport: 'ipc' });
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
 require("dotenv").config();

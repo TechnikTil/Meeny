@@ -40,7 +40,9 @@ module.exports = {
             - (+) Added **Say** Command \`/say <message>\`
             - (+) Added **Server Info** Command \`/serverinfo\`
             - (+) Added **Updates** Command \`/updates\`
+            - (+) Added **Kill** Command \`/kill  <target>\`
             - (+) Added Block System
+            - (+) Added Self Commands
             `)
             .setFooter({ text: `Requested by: ${interaction.user.username}` })
 

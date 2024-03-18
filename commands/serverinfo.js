@@ -42,6 +42,7 @@ module.exports = {
                 Region: ${interaction.guild.region}
                 MFA Level: ${interaction.guild.mfaLevel}
                 NSFW Level: ${interaction.guild.nsfwLevel}
+                Channel Amount: ${interaction.guild.channels.cache.size}
                 Rules Channel: ${interaction.guild.rulesChannel} (${interaction.guild.rulesChannelId})
                 Max Bitrate: ${getBitrate()}
                 Verified Server: ${interaction.guild.verified}
@@ -58,6 +59,7 @@ module.exports = {
             .setDescription(`
                 Owner: <@${interaction.guild.ownerId}> (${interaction.guild.ownerId})
                 Member Count: ${interaction.guild.memberCount} / ${interaction.guild.maximumMembers}
+                Amount of Roles: ${interaction.guild.roles.cache.size - 1}
                 `)
                 /*
                 Members Online:
@@ -66,6 +68,7 @@ module.exports = {
                 Members Offline:
                 Bots: 
                 */
+                
             .setFooter({ text: `Requested by: ${interaction.user.username}` })
 
         const infoReply = await interaction.reply({ embeds: [infoEmbed], components: [row]});
