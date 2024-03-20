@@ -4,11 +4,11 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('credits')
         .setDescription("All of the people who worked/helped making this bot"),
-    async execute(interaction) {
-        var socialsEmbed = new EmbedBuilder()
+    async execute(interaction_metadata) {
+        const socialsEmbed = new EmbedBuilder()
             .setTitle(`Credits`)
             .setDescription("Owner: CrusherNotDrip\n Co-Owner: NeonFurious\nProfile Picture: jori (Owner of Hyper Metal) + maham (helped with making it a tiny bit better\nCoding help: discord.js (It has a helpful guide! https://discordjs.guide)\nAchievement Command URL: https://minecraftskinstealer.com");
-        await interaction.reply({ embeds: [socialsEmbed] });
-        console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}`);
+        await interaction_metadata.reply({ embeds: [socialsEmbed] });
+        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
     },
 };

@@ -24,17 +24,12 @@ also made with discord.js and node.js and whatever
 
 ### **Running the Bot:**
 **If you haven't already then get the code from this github**
-1. Create a New File named `.env`
-2. Put all of this stuff inside the `.env` file
-
+1. Rename `.env.sample` to `.env`
+2. Replace the values inside the .env file to your apps values
+3. Open a Command Prompt or Powershell or whatever
+4. Run `node .` and it should return
+```powershell
+Successfully updated commands.
+YourBotsName#0000 is now online!
 ```
-# BETA
-tokenBETA="YOURBOTTOKENHERE" # Refer to step 5 in the Creating an App section of the README
-botIDBETA="YOURBOTIDHERE" # Refer to step 6 in the Creating an App section of the README
-
-# Other Stuff
-blockList=[] # These go by Discord User IDS
-```
-
-3. Open up Command Prompt or something like that then run `node deploy-commands.js` (You will know if its successful if it says `Successfully registered application commands.`)
-4. Run `node .` and it should return `YourBotsName#0000 is now online!` in the console log, the bot will also be online
+and your bot should be online!

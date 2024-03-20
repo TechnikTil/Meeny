@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('updates')
         .setDescription("Shows you what changed in Meeny!"),
-    async execute(interaction) {
+    async execute(interaction_metadata) {
         // Update Menu
 		const updateSelect = new StringSelectMenuBuilder()
 			.setCustomId('updateSelect')
@@ -24,7 +24,7 @@ module.exports = {
         const updateEmbed = new EmbedBuilder()
             .setTitle(`Updates`)
             .setDescription('Select a option!')
-            .setFooter({ text: `Requested by: ${interaction.user.username}` })
+            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` })
 
         const v1embed = new EmbedBuilder()
             .setTitle(`Version 1`)
@@ -44,9 +44,9 @@ module.exports = {
             - (+) Added Block System
             - (+) Added Self Commands
             `)
-            .setFooter({ text: `Requested by: ${interaction.user.username}` })
+            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` })
 
-        const updateReply = await interaction.reply({ embeds: [updateEmbed], components: [row]});
+        const updateReply = await interaction_metadata.reply({ embeds: [updateEmbed], components: [row]});
 
         const collector = await updateReply.createMessageComponentCollector({ componentType: ComponentType.StringSelect });
 
@@ -57,11 +57,11 @@ module.exports = {
                 if (value === "v1")
                 {
                     await i.update({ embeds: [v1embed], components: [row] });
-                    console.log(`${interaction.user.username} selected Version 1! - updates.js`)
+                    console.log(`${interaction_metadata.user.username} selected Version 1! - updates.js`)
                 }
             }
         });
 
-        console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}`);
+        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
     },
 };
