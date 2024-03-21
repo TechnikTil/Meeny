@@ -4,8 +4,8 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('updates')
         .setDescription("Shows you what changed in Meeny!"),
+
     async execute(interaction_metadata) {
-        // Update Menu
 		const updateSelect = new StringSelectMenuBuilder()
 			.setCustomId('updateSelect')
 			.setPlaceholder('Click/Tap Me!')
@@ -17,36 +17,34 @@ module.exports = {
                     //.setDefault(true),
             );
 
-        const row = new ActionRowBuilder()
+        const selection = new ActionRowBuilder()
             .addComponents(updateSelect);
 
-        //Embeds
         const updateEmbed = new EmbedBuilder()
             .setTitle(`Updates`)
             .setDescription('Select a option!')
-            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` })
+            .setFooter({ text: `The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) | Requested by: ${interaction_metadata.user.username}` })
 
-        const v1embed = new EmbedBuilder()
-            .setTitle(`Version 1`)
-            .setDescription(`
-            ## Version 1.0.0
-            (-) The whole section for now
-            `)
-            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` })
-
-        const updateReply = await interaction_metadata.reply({ embeds: [updateEmbed], components: [row]});
-
+        const updateReply = await interaction_metadata.reply({ embeds: [updateEmbed], components: [selection]});
         const collector = await updateReply.createMessageComponentCollector({ componentType: ComponentType.StringSelect });
 
-        collector.on('collect', async i => {
+        collector.on('collect', async i =>
+        {
             if(i.customId === "updateSelect")
             {
                 const value = i.values[0];
                 if (value === "v1")
                 {
-                    await i.update({ embeds: [v1embed], components: [row] });
-                    //console.log(`${interaction_metadata.user.username} selected Version 1! - updates.js`)
+                    updateEmbed.setTitle(`V1`)
+                    .setDescription(`
+                    ## Version 1.0.0
+                    ### Removed
+                    - This whole section for now
+                    `)
                 }
+
+                await i.update({ embeds: [updateEmbed], components: [selection] });
+                //console.log(`${interaction_metadata.user.username} selected ${v1embed.title} - updates.js`)
             }
         });
 
