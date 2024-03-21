@@ -9,6 +9,6 @@ module.exports = {
             .setTitle(`Credits`)
             .setDescription("Owner: CrusherNotDrip\n Co-Owner: NeonFurious\nProfile Picture: jori (Owner of Hyper Metal) + maham (helped with making it a tiny bit better\nCoding help: discord.js (It has a helpful guide! https://discordjs.guide)\nAchievement Command URL: https://minecraftskinstealer.com");
         await interaction_metadata.reply({ embeds: [socialsEmbed] });
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
     },
 };

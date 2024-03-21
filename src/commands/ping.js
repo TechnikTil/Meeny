@@ -6,6 +6,6 @@ module.exports = {
         .setDescription('Replies with Pong!'),
     async execute(interaction_metadata) {
         await interaction_metadata.reply('Pong!');
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
     },
 };

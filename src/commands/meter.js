@@ -16,6 +16,6 @@ module.exports = {
             .setDescription(`**${interaction_metadata.user.username}** has a **${meter}** meter at **${item}** ${result}%`)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
         await interaction_metadata.reply({ embeds: [meterEmbed] });
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Meter: ${meter}, Item: ${item}, Result: ${result}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Meter: ${meter}, Item: ${item}, Result: ${result}`);
     },
 };

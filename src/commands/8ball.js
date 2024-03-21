@@ -16,6 +16,6 @@ module.exports = {
             .setDescription(`**${interaction_metadata.user.username}** asked "${question}"\n And the answer is... ${possibleAnswers[answer]}`)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
         await interaction_metadata.reply({ embeds: [eightBallEmbed] });
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Question: ${question}, Answer: ${possibleAnswers[answer]}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Question: ${question}, Answer: ${possibleAnswers[answer]}`);
     },
 };

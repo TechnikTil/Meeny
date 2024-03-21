@@ -22,6 +22,6 @@ module.exports = {
             .setTitle(`Meeny's Socials`)
             .setDescription("Click a button below to visit one of them!");
         await interaction_metadata.reply({ embeds: [socialsEmbed], components: [socialsButtons] });
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
     },
 };

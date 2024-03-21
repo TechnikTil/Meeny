@@ -10,8 +10,8 @@ module.exports = {
         const message = interaction_metadata.options.getString('message');
         await interaction_metadata.reply({ content: 'Sent Message!', ephemeral: true });
         await interaction_metadata.channel.send({ content: message });
-        //Your not safe if you type something as Meeny BETA... I will already know
+        //Your not safe if you type something as Meeny BETA... I will already know... or maybe u are safe
         //https://bobbyhadz.com/blog/javascript-convert-local-time-to-est#:~:text=in%20different%20ways.-,index.js,-const%20date%20%3D
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Message: ${message}, Time: ${date.toLocaleString('en-US', { timeZone: 'America/Toronto', dateStyle: 'full', timeStyle: 'full' })}`); //11 seconds behind but idc
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Message: ${message}, Time: ${date.toLocaleString('en-US', { timeZone: 'America/Toronto', dateStyle: 'full', timeStyle: 'full' })}`); //11 seconds behind but idc
     },
 };

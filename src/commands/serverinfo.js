@@ -83,12 +83,12 @@ module.exports = {
                 if (value === "serverI")
                 {
                     await i.update({ embeds: [serverEmbed], components: [row] });
-                    console.log(`${interaction_metadata.user.username} selected Server Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`)
+                    //console.log(`${interaction_metadata.user.username} selected Server Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`)
                 }
                 if (value === "membersI")
                 {
                     await i.update({ embeds: [membersEmbed], components: [row] });
-                    console.log(`${interaction_metadata.user.username} selected Members Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`)
+                    //console.log(`${interaction_metadata.user.username} selected Members Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`)
                 }
             }
         });
@@ -106,6 +106,6 @@ module.exports = {
                 return "This server does not have a Vanity URL.";
         }
 
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
     },
 };

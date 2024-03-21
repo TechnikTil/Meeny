@@ -29,6 +29,6 @@ module.exports = {
             .setDescription(`${deaths[response]}`)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
         await interaction_metadata.reply({ embeds: [killEmbed] });
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Target: ${target}, Cause of death: ${deaths[response]}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Target: ${target}, Cause of death: ${deaths[response]}`);
     },
 };

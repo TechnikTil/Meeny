@@ -30,19 +30,7 @@ module.exports = {
             .setTitle(`Version 1`)
             .setDescription(`
             ## Version 1.0.0
-            - (+) Added **Ping** Command \`/ping\`
-            - (+) Added **Meter** Command \`/meter <meter> <item>\`
-            - (+) Added **Credits** \`/credits\`
-            - (+) Added **Socials** \`/socials\`
-            - (+) Added **Achievement** Command \`/achievement <achievement>\`
-            - (+) Added **8Ball** Command \`/8ball <question>\`
-            - (+) Added **Chances of** Command \`/chancesof <chance>\`
-            - (+) Added **Say** Command \`/say <message>\`
-            - (+) Added **Server Info** Command \`/serverinfo\`
-            - (+) Added **Updates** Command \`/updates\`
-            - (+) Added **Kill** Command \`/kill  <target>\`
-            - (+) Added Block System
-            - (+) Added Self Commands
+            (-) The whole section for now
             `)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` })
 
@@ -57,11 +45,11 @@ module.exports = {
                 if (value === "v1")
                 {
                     await i.update({ embeds: [v1embed], components: [row] });
-                    console.log(`${interaction_metadata.user.username} selected Version 1! - updates.js`)
+                    //console.log(`${interaction_metadata.user.username} selected Version 1! - updates.js`)
                 }
             }
         });
 
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
     },
 };

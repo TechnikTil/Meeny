@@ -14,6 +14,6 @@ module.exports = {
             .setDescription(`The chances of **${chance}** is **${result}%**`)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
         await interaction_metadata.reply({ embeds: [chanceEmbed] });
-        console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Chances of: ${chance}, Result: ${result}`);
+        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Chances of: ${chance}, Result: ${result}`);
     },
 };
