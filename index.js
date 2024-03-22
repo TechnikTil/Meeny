@@ -1,12 +1,9 @@
+require("dotenv").config();
+
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, ActivityType } = require('discord.js');
-const init = require('./src/initalize.js');
-
-require("dotenv").config();
-const token = process.env['tokenBETA']
-const blocked = process.env['blockList']
-const clientId = process.env['botIDBETA']
+const init = require('./src/backend/initalize.js');
 
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]});
 client.commands = new Collection();
@@ -19,5 +16,5 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 
-init.deployCommands(commandsPath, commandFiles, token, clientId)
-init.initalizeBot(client, token, ActivityType.Playing, blocked);
+init.deployCommands(commandsPath, commandFiles);
+init.initalizeBot(client, ActivityType.Playing);

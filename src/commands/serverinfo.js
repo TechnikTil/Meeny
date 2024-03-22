@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, EmbedBuilder } = require('discord.js');
+const watcher = require('../backend/watcher.js');
 
 module.exports = {
     //interaction_type:  ,
@@ -30,7 +31,7 @@ module.exports = {
             .setTitle(`Server Info`)
             .setImage(`${interaction_metadata.guild.iconURL()}`)
             .setDescription('Select a option!')
-            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` })
+            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
 
         const infoReply = await interaction_metadata.reply({ embeds: [infoEmbed], components: [selection]});
         const collector = await infoReply.createMessageComponentCollector({ componentType: ComponentType.StringSelect });
@@ -59,8 +60,10 @@ module.exports = {
                         Boost Level: ${interaction_metadata.guild.premiumTier}
                         Boost Amount: ${interaction_metadata.guild.premiumSubscriptionCount}
                         Vanity URL: ${getVanityURL()}
-                    `)
-                    //console.log(`${interaction_metadata.user.username} selected Server Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`)
+                    `);
+
+                    if (process.env['watchList'].includes(interaction_metadata.user.id))
+                        console.log(`${interaction_metadata.user.username} selected Server Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`);
                 }
                 if (value === "membersI")
                 {
@@ -69,7 +72,7 @@ module.exports = {
                         Owner: <@${interaction_metadata.guild.ownerId}> (${interaction_metadata.guild.ownerId})
                         Member Count: ${interaction_metadata.guild.memberCount} / ${interaction_metadata.guild.maximumMembers}
                         Amount of Roles: ${interaction_metadata.guild.roles.cache.size - 1}
-                    `)
+                    `);
                     /*
                     Members Online:
                     Members Idle:
@@ -77,7 +80,9 @@ module.exports = {
                     Members Offline:
                     Bots: 
                     */
-                    //console.log(`${interaction_metadata.user.username} selected Members Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`)
+
+                    if (process.env['watchList'].includes(interaction_metadata.user.id))
+                        console.log(`${interaction_metadata.user.username} selected Members Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`);
                 }
                 await i.update({ embeds: [infoEmbed], components: [selection] });
             }
@@ -96,6 +101,6 @@ module.exports = {
                 return "This server does not have a Vanity URL.";
         }
 
-        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+        watcher.command(interaction_metadata);
     },
 };

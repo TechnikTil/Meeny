@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const watcher = require('../backend/watcher.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -6,6 +7,7 @@ module.exports = {
         .setDescription("Meeny's Meter you can use to check how gay and stupid you are (there is more but thats up to you)")
         .addStringOption(option => option.setName('meter').setDescription('What Meter do you want?').setRequired(true))
         .addStringOption(option => option.setName('item').setDescription('What Item/Person/Object (you get it) do you want?').setRequired(true)),
+
     async execute(interaction_metadata) {
         const meter = interaction_metadata.options.getString('meter');
         const item = interaction_metadata.options.getString('item');
@@ -15,7 +17,9 @@ module.exports = {
             .setTitle(`Meeny's ${meter} Meter!`)
             .setDescription(`**${interaction_metadata.user.username}** has a **${meter}** meter at **${item}** ${result}%`)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
+
         await interaction_metadata.reply({ embeds: [meterEmbed] });
-        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Meter: ${meter}, Item: ${item}, Result: ${result}`);
+
+        watcher.command(interaction_metadata, `Meter: ${meter}, Item: ${item}, Result: ${result}`);
     },
 };

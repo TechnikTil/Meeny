@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, EmbedBuilder } = require('discord.js');
+const watcher = require('../backend/watcher.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,7 +24,7 @@ module.exports = {
         const updateEmbed = new EmbedBuilder()
             .setTitle(`Updates`)
             .setDescription('Select a option!')
-            .setFooter({ text: `The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) | Requested by: ${interaction_metadata.user.username}` })
+            .setFooter({ text: `The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) | Requested by: ${interaction_metadata.user.username}` });
 
         const updateReply = await interaction_metadata.reply({ embeds: [updateEmbed], components: [selection]});
         const collector = await updateReply.createMessageComponentCollector({ componentType: ComponentType.StringSelect });
@@ -44,10 +45,12 @@ module.exports = {
                 }
 
                 await i.update({ embeds: [updateEmbed], components: [selection] });
-                //console.log(`${interaction_metadata.user.username} selected ${v1embed.title} - updates.js`)
+
+                if (process.env['watchList'].includes(interaction_metadata.user.id))
+                    console.log(`${interaction_metadata.user.username} selected ${value} - updates.js`);
             }
         });
 
-        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+        watcher.command(interaction_metadata);
     },
 };

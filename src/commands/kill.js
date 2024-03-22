@@ -1,10 +1,12 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const watcher = require('../backend/watcher.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('kill')
         .setDescription("Who will you kill and how will you do it? (WARNING: MAY REPLY WITH SUGGESTIVE CONTENT!)")
         .addUserOption(option => option.setName('target').setDescription('Who do you want to kill?').setRequired(true)),
+
     async execute(interaction_metadata) {
         const target = interaction_metadata.options.getUser('target');
         const user = `<@${interaction_metadata.user.id}>`;
@@ -28,7 +30,9 @@ module.exports = {
             .setTitle(`Meeny's Death Chamber`)
             .setDescription(`${deaths[response]}`)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
+
         await interaction_metadata.reply({ embeds: [killEmbed] });
-        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Target: ${target}, Cause of death: ${deaths[response]}`);
+
+        watcher.command(interaction_metadata, `Target: ${target}, Cause of death: ${deaths[response]}`);
     },
 };

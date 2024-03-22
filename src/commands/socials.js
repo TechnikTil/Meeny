@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
+const watcher = require('../backend/watcher.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,6 +26,7 @@ module.exports = {
             .setDescription("Click a button below to visit one of them!");
 
         await interaction_metadata.reply({ embeds: [socialsEmbed], components: [socialsButtons] });
-        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}`);
+
+        watcher.command(interaction_metadata);
     },
 };

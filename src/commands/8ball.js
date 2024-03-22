@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const watcher = require('../backend/watcher.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +16,9 @@ module.exports = {
             .setTitle(`Meeny's 8Ball!`)
             .setDescription(`**${interaction_metadata.user.username}** asked "${question}"\n And the answer is... ${possibleAnswers[answer]}`)
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
+
         await interaction_metadata.reply({ embeds: [eightBallEmbed] });
-        //console.log(`Command: ${interaction_metadata.commandName}, Ran by: ${interaction_metadata.user.tag}, Question: ${question}, Answer: ${possibleAnswers[answer]}`);
+
+        watcher.command(interaction_metadata, `Question: ${question}, Answer: ${possibleAnswers[answer]}`);
     },
 };

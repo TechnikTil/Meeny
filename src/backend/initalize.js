@@ -1,4 +1,6 @@
-function initalizeBot(client, token, activitytype, blocked)
+const env = require('./envReturners.js');
+
+function initalizeBot(client, activitytype)
 {
     client.once('ready', () => {
         console.log(`${client.user.tag} is now online!`);
@@ -18,7 +20,7 @@ function initalizeBot(client, token, activitytype, blocked)
             }
 
             try {
-                if (blocked.includes(interaction_metadata.user.id))
+                if (process.env['blockList'].includes(interaction_metadata.user.id))
                     await interaction_metadata.reply({ content: 'Uh oh, You\'re on **Meeny\'s Block List!** If you think this is a mistake, Try contacting support in the [Meeny Discord Server.](https://discord.gg/fVWFzyr9tg)', ephemeral: true });
                 else
                     await command.execute(interaction_metadata);
@@ -29,14 +31,15 @@ function initalizeBot(client, token, activitytype, blocked)
                 await interaction_metadata.reply({ content: 'There was an error while using this command!', ephemeral: true });
             }
         }
+
         else if (interaction_metadata.isButton()) {}
         else if (interaction_metadata.isStringSelectMenu()) {}
     });
 
-    client.login(token);
+    client.login(env.getToken());
 }
 
-function deployCommands(cmdPath, files, token, id)
+function deployCommands(cmdPath, files)
 {
     const path = require('node:path');
     const { REST } = require('@discordjs/rest');
@@ -50,9 +53,9 @@ function deployCommands(cmdPath, files, token, id)
         commands.push(command.data.toJSON());
     }
 
-    const rest = new REST({ version: '10' }).setToken(token);
+    const rest = new REST({ version: '10' }).setToken(env.getToken());
 
-    rest.put(Routes.applicationCommands(id), { body: commands })
+    rest.put(Routes.applicationCommands(env.getID()), { body: commands })
         .then(() => console.log('Successfully updated commands.'))
         .catch(console.error);
 }
