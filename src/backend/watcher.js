@@ -11,14 +11,19 @@ function command(interaction, extraText) {
 // Modified Version of https://www.npmjs.com/package/get-caller-file
 function getCmdFile()
 {
+    var path = require("path");
+    var pathName = '';
+
     var oldPrepareStackTrace = Error.prepareStackTrace;
     Error.prepareStackTrace = function (_, stack) { return stack; };
     var stack = new Error().stack;
     Error.prepareStackTrace = oldPrepareStackTrace;
 
     if (stack !== null && typeof stack === 'object') {
-        return stack[2] ? stack[2].getFileName() : undefined;
+        pathName = stack[2] ? stack[2].getFileName() : undefined;
     }
+
+    return path.basename(pathName.toString());
 };
 
 module.exports = { command }

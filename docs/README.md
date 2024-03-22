@@ -16,13 +16,13 @@ also made with discord.js and node.js and whatever
 2. This one uses `User Install` and `Guild Install` so make sure to click on both of them
 3. These are the permissions used since im too lazy to list them all off but make sure these permissions are on
 
-## **Building**
+## **Running an App**
 ### **Required things:**
 - [Node.js](https://nodejs.org/en/)
 - [discord.js](https://discord.js.org/#/)
 - An IDE (For Example: [Visual Studio Code](https://code.visualstudio.com), [Sublime Text](https://www.sublimetext.com)) (Optional)
 
-### **Running the Bot:**
+### **Get the app online:**
 **If you haven't already then get the code from this github**
 1. Rename `.env.sample` to `.env`
 2. Replace the values inside the .env file to your apps values

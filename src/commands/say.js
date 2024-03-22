@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
 const watcher = require('../backend/watcher.js');
-const date = new Date(); //lmao
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +11,6 @@ module.exports = {
         const message = interaction_metadata.options.getString('message');
         await interaction_metadata.reply({ content: 'Sent Message!', ephemeral: true });
         await interaction_metadata.channel.send({ content: message });
-        //Your not safe if you type something as Meeny BETA... I will already know... if your on the watchlist
-        watcher.command(interaction_metadata, `Message: ${message}, Date: ${date.toLocaleString('en-US', { timeZone: 'America/Toronto', dateStyle: 'short', timeStyle: 'short' })}`);
+        watcher.command(interaction_metadata, `Message: ${message}`);
     },
 };
