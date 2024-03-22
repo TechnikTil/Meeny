@@ -23,7 +23,7 @@ function getCmdFile()
         pathName = stack[2] ? stack[2].getFileName() : undefined;
     }
 
-    return path.basename(pathName.toString());
+    return path.basename(pathName);
 };
 
 module.exports = { command }
