@@ -17,7 +17,7 @@ module.exports = {
             new ButtonBuilder()
                 .setLabel('GitHub (also comes with Source Code)')
                 .setStyle(ButtonStyle.Link)
-                .setURL('https://github.com/MeenyDiscord')
+                .setURL('https://github.com/MeenyDiscord/Meeny/tree/Meeny-BETA')
                 .setEmoji('1044414200941903922'),
             new ButtonBuilder()
                 .setLabel('Twitter (IM NOT CALLING IT X)')
