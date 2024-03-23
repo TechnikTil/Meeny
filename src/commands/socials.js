@@ -1,10 +1,15 @@
-const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const watcher = require('../backend/watcher.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('socials')
-        .setDescription("All of Meeny's Social Media's (Stuff like Twitter and whatever)"),
+    data:
+    {
+        'name': 'socials',
+        'type': 1,
+        'description': 'All of Meeny\'s Social Media\'s (Stuff like Twitter and whatever)',
+        'integration_types': [1],
+        'contexts': [1],
+    },
 
     async execute(interaction_metadata) {
         const socialsButtons = new ActionRowBuilder()
@@ -15,7 +20,7 @@ module.exports = {
                 .setURL('https://github.com/MeenyDiscord')
                 .setEmoji('1044414200941903922'),
             new ButtonBuilder()
-                .setLabel('Twitter')
+                .setLabel('Twitter (IM NOT CALLING IT X)')
                 .setStyle(ButtonStyle.Link)
                 .setURL('https://twitter.com/MeenyDiscord')
                 .setEmoji('1044414199603933207'),
@@ -30,3 +35,9 @@ module.exports = {
         watcher.command(interaction_metadata);
     },
 };
+
+/*  Just incase they add intergration_types to the slashcommandbuilder :)
+    data: new SlashCommandBuilder()
+        .setName('socials')
+        .setDescription("All of Meeny's Social Media's (Stuff like Twitter and whatever)"),
+*/

@@ -1,11 +1,24 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const watcher = require('../backend/watcher.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('kill')
-        .setDescription("Who will you kill and how will you do it? (WARNING: MAY REPLY WITH SUGGESTIVE CONTENT!)")
-        .addUserOption(option => option.setName('target').setDescription('Who do you want to kill?').setRequired(true)),
+    data:
+    {
+        'name': 'kill',
+        'type': 1,
+        'description': 'Who will you kill and how will you do it? (WARNING: MAY REPLY WITH DISTURBING CONTENT!)',
+        options:
+        [
+            {
+                type: 6,
+                name: 'target',
+                description: 'Who do you want to kill?',
+                required: true,
+            },
+        ],
+        'integration_types': [0, 1],
+        'contexts': [0, 1, 2],
+    },
 
     async execute(interaction_metadata) {
         const target = interaction_metadata.options.getUser('target');
@@ -36,3 +49,10 @@ module.exports = {
         watcher.command(interaction_metadata, `Target: ${target}, Cause of death: ${deaths[response]}`);
     },
 };
+
+/*  Just incase they add intergration_types to the slashcommandbuilder :)
+    data: new SlashCommandBuilder()
+        .setName('kill')
+        .setDescription("Who will you kill and how will you do it? (WARNING: MAY REPLY WITH SUGGESTIVE CONTENT!)")
+        .addUserOption(option => option.setName('target').setDescription('Who do you want to kill?').setRequired(true)),
+*/

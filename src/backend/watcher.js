@@ -26,4 +26,4 @@ function getCmdFile()
     return path.basename(pathName);
 };
 
-module.exports = { command }
+module.exports = { command, getCmdFile }

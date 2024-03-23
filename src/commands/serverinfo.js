@@ -1,11 +1,15 @@
-const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, EmbedBuilder } = require('discord.js');
 const watcher = require('../backend/watcher.js');
 
 module.exports = {
-    //interaction_type:  ,
-    data: new SlashCommandBuilder()
-        .setName('serverinfo')
-        .setDescription("Show's you the info of this server!"),
+    data:
+    {
+        'name': 'serverinfo',
+        'type': 1,
+        'description': 'Show\'s you the info of this server!',
+        'integration_types': [0],
+        'contexts': [0],
+    },
 
     async execute(interaction_metadata) {
 		const infoSelect = new StringSelectMenuBuilder()
@@ -63,7 +67,7 @@ module.exports = {
                     `);
 
                     if (process.env['watchList'].includes(interaction_metadata.user.id))
-                        console.log(`${interaction_metadata.user.username} selected Server Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`);
+                        console.log(`${interaction_metadata.user.username} selected Server Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - ${watcher.getCmdFile()}`);
                 }
                 if (value === "membersI")
                 {
@@ -82,7 +86,7 @@ module.exports = {
                     */
 
                     if (process.env['watchList'].includes(interaction_metadata.user.id))
-                        console.log(`${interaction_metadata.user.username} selected Members Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - serverinfo.js`);
+                        console.log(`${interaction_metadata.user.username} selected Members Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - ${watcher.getCmdFile()}`);
                 }
                 await i.update({ embeds: [infoEmbed], components: [selection] });
             }
@@ -104,3 +108,9 @@ module.exports = {
         watcher.command(interaction_metadata);
     },
 };
+
+/*  Just incase they add intergration_types to the slashcommandbuilder :)
+    data: new SlashCommandBuilder()
+        .setName('serverinfo')
+        .setDescription("Show's you the info of this server!"),
+*/

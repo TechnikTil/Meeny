@@ -1,10 +1,15 @@
-const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, EmbedBuilder } = require('discord.js');
 const watcher = require('../backend/watcher.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('updates')
-        .setDescription("Shows you what changed in Meeny!"),
+    data:
+    {
+        'name': 'updates',
+        'type': 1,
+        'description': 'Shows you what changed in Meeny!',
+        'integration_types': [1],
+        'contexts': [1],
+    },
 
     async execute(interaction_metadata) {
 		const updateSelect = new StringSelectMenuBuilder()
@@ -47,10 +52,16 @@ module.exports = {
                 await i.update({ embeds: [updateEmbed], components: [selection] });
 
                 if (process.env['watchList'].includes(interaction_metadata.user.id))
-                    console.log(`${interaction_metadata.user.username} selected ${value} - updates.js`);
+                    console.log(`${interaction_metadata.user.username} selected ${value} - ${watcher.getCmdFile()}`);
             }
         });
 
         watcher.command(interaction_metadata);
     },
 };
+
+/*  Just incase they add intergration_types to the slashcommandbuilder :)
+    data: new SlashCommandBuilder()
+        .setName('updates')
+        .setDescription("Shows you what changed in Meeny!"),
+*/

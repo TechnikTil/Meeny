@@ -1,11 +1,23 @@
-const { SlashCommandBuilder } = require('discord.js');
 const watcher = require('../backend/watcher.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('achievement')
-        .setDescription('Replies with a Minecraft Achievement of choice (Achievement Icon is Randomized)')
-        .addStringOption(option => option.setName('achievement').setDescription('What should the name of the achievement be?').setRequired(true)),
+    data:
+    {
+        'name': 'achievement',
+        'type': 1,
+        'description': 'Replies with a Minecraft Achievement of choice (Achievement Icon is Randomized)',
+        options:
+        [
+            {
+                type: 3,
+                name: 'achievement',
+                description: 'What should the name of the achievement be?',
+                required: true,
+            },
+        ],
+        'integration_types': [0, 1],
+        'contexts': [0, 1, 2],
+    },
 
     async execute(interaction_metadata) {
         const achievement = interaction_metadata.options.getString('achievement');
@@ -16,3 +28,10 @@ module.exports = {
         watcher.command(interaction_metadata, `Name: ${achievement}, Link: ${link}`);
     },
 };
+
+/*  Just incase they add intergration_types to the slashcommandbuilder :)
+    data: new SlashCommandBuilder()
+        .setName('achievement')
+        .setDescription('Replies with a Minecraft Achievement of choice (Achievement Icon is Randomized)')
+        .addStringOption(option => option.setName('achievement').setDescription('What should the name of the achievement be?').setRequired(true)),
+*/

@@ -50,7 +50,7 @@ function deployCommands(cmdPath, files)
     for (const file of files) {
         const filePath = path.join(cmdPath, file);
         const command = require(filePath);
-        commands.push(command.data.toJSON());
+        commands.push(command.data);
     }
 
     const rest = new REST({ version: '10' }).setToken(env.getToken());
