@@ -15,7 +15,7 @@ module.exports = {
         const socialsButtons = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-                .setLabel('GitHub (also comes with Source Code)')
+                .setLabel('GitHub (Source Code)')
                 .setStyle(ButtonStyle.Link)
                 .setURL('https://github.com/MeenyDiscord/Meeny/tree/Meeny-BETA')
                 .setEmoji('1044414200941903922'),
