@@ -1,9 +1,8 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
-const watcher = require('../backend/watcher.js');
+const watcher = require('../utils/watcher.js');
 
 module.exports = {
-    data:
-    {
+    data: {
         'name': 'socials',
         'type': 1,
         'description': 'All of Meeny\'s Social Media\'s (Stuff like Twitter and whatever)',

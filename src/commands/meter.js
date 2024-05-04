@@ -1,9 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
-const watcher = require('../backend/watcher.js');
+const watcher = require('../utils/watcher.js');
 
 module.exports = {
-    data:
-    {
+    data: {
         'name': 'meter',
         'type': 1,
         'description': 'Meeny\'s Meter you can use to check how gay and stupid you are (there is more but thats up to you)',

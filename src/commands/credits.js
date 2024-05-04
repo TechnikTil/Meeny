@@ -1,9 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
-const watcher = require('../backend/watcher.js');
+const watcher = require('../utils/watcher.js');
 
 module.exports = {
-    data:
-    {
+    data: {
         'name': 'credits',
         'type': 1,
         'description': 'All of the people who worked/helped making this bot',

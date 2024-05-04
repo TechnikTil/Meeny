@@ -1,9 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
-const watcher = require('../backend/watcher.js');
+const watcher = require('../utils/watcher.js');
 
 module.exports = {
-    data:
-    {
+    data: {
         'name': '8ball',
         'type': 1,
         'description': 'Meeny\'s 8Ball you can use to either cry or flip your desk when you see the results',
@@ -22,7 +21,15 @@ module.exports = {
 
     async execute(interaction_metadata) {
         const question = interaction_metadata.options.getString('question');
-        const possibleAnswers = ['Yes', 'No', 'Maybe', "I don't know", 'Try Asking Again'];
+
+        const possibleAnswers = [
+            'Yes',
+            'No',
+            'Maybe',
+            'I don\'t know',
+            'Try Asking Again'
+        ];
+
         const answer = Math.floor(Math.random() * 5);
 
         const eightBallEmbed = new EmbedBuilder()

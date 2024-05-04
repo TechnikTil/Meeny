@@ -1,9 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
-const watcher = require('../backend/watcher.js');
+const watcher = require('../utils/watcher.js');
 
 module.exports = {
-    data:
-    {
+    data: {
         'name': 'chancesof',
         'type': 1,
         'description': 'Chances of you using this command: 50%',

@@ -1,8 +1,7 @@
-const watcher = require('../backend/watcher.js');
+const watcher = require('../utils/watcher.js');
 
 module.exports = {
-    data:
-    {
+    data: {
         'name': 'achievement',
         'type': 1,
         'description': 'Replies with a Minecraft Achievement of choice (Achievement Icon is Randomized)',

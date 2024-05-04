@@ -1,8 +1,7 @@
-const watcher = require('../backend/watcher.js');
+const watcher = require('../utils/watcher.js');
 
 module.exports = {
-    data:
-    {
+    data: {
         'name': 'say',
         'type': 1,
         'description': 'Say a message as Meeny BETA',
