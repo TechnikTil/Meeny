@@ -18,12 +18,12 @@ module.exports = {
 				new StringSelectMenuOptionBuilder()
 					.setLabel('Server Info')
 					.setDescription('Information about this server.')
-                    .setEmoji('1167632009452064870')
+                    .setEmoji('1256759278069612576')
 					.setValue('serverI'),
 				new StringSelectMenuOptionBuilder()
 					.setLabel('Members Info')
 					.setDescription('Member information about this server.')
-                    .setEmoji('1167627097095807067')
+                    .setEmoji('1256759277465632858')
 					.setValue('membersI'),
             );
 

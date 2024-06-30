@@ -1,5 +1,5 @@
 # **Meeny BETA**
-Meeny is a Discord App made by CrusherNotDrip out of boredom
+Meeny is a Discord app made by CrusherNotDrip out of boredom
 
 also made with discord.js and node.js and whatever
 ## **Creating an App**

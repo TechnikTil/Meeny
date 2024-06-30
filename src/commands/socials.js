@@ -17,12 +17,12 @@ module.exports = {
                 .setLabel('GitHub (Source Code)')
                 .setStyle(ButtonStyle.Link)
                 .setURL('https://github.com/MeenyDiscord/Meeny/tree/Meeny-BETA')
-                .setEmoji('1044414200941903922'),
+                .setEmoji('1256759276450349251'),
             new ButtonBuilder()
-                .setLabel('Twitter (IM NOT CALLING IT X)')
+                .setLabel('Twitter (also known as X)')
                 .setStyle(ButtonStyle.Link)
                 .setURL('https://twitter.com/MeenyDiscord')
-                .setEmoji('1044414199603933207'),
+                .setEmoji('1256759279294222437'),
         );
 
         const socialsEmbed = new EmbedBuilder()
