@@ -2,11 +2,10 @@ const watcher = require('../utils/watcher.js');
 
 module.exports = {
     data: {
-        'name': 'achievement',
-        'type': 1,
-        'description': 'Replies with a Minecraft Achievement of choice (Achievement Icon is Randomized)',
-        options:
-        [
+        name: 'achievement',
+        type: 1,
+        description: 'Replies with a Minecraft Achievement (Achievement Icon is Randomized)',
+        options: [
             {
                 type: 3,
                 name: 'achievement',
@@ -14,8 +13,8 @@ module.exports = {
                 required: true,
             },
         ],
-        'integration_types': [0, 1],
-        'contexts': [0, 1, 2],
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
     },
 
     async execute(interaction_metadata) {
@@ -27,10 +26,3 @@ module.exports = {
         watcher.command(interaction_metadata, `Name: ${achievement}, Link: ${link}`);
     },
 };
-
-/*  Just incase they add intergration_types to the slashcommandbuilder :)
-    data: new SlashCommandBuilder()
-        .setName('achievement')
-        .setDescription('Replies with a Minecraft Achievement of choice (Achievement Icon is Randomized)')
-        .addStringOption(option => option.setName('achievement').setDescription('What should the name of the achievement be?').setRequired(true)),
-*/

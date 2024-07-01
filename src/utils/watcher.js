@@ -1,16 +1,15 @@
 function command(interaction, extraText) {
-    if (process.env['watchList'].includes(interaction.user.id))
-    {
-        if (extraText != null)
-            return console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}, ` + extraText + ' - ' + getCmdFile());
-        else
-            return console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag} - ` + getCmdFile());
-    }
+    if (!process.env['watchList'].includes(interaction.user.id))
+        return;
+
+    if (extraText != null)
+        return console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag}, ` + extraText + ' - ' + getCmdFile());
+    else
+        return console.log(`Command: ${interaction.commandName}, Ran by: ${interaction.user.tag} - ` + getCmdFile());
 }
 
 // Modified Version of https://www.npmjs.com/package/get-caller-file
-function getCmdFile()
-{
+function getCmdFile() {
     var path = require("path");
     var pathName = '';
 

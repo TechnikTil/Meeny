@@ -1,17 +1,17 @@
-const env = require('./envReturners.js');
+const env = require('./meenyEnv.js');
 
-function initalizeBot(client, activitytype)
-{
+function initalizeBot(client, activitytype) {
     client.once('ready', () => {
         console.log(`${client.user.tag} is now online!`);
+
         if (activitytype != null)
             client.user.setActivity('with your mom/dad lol', { type: activitytype });
+
         client.user.setStatus('dnd');
     });
 
     client.on('interactionCreate', async interaction_metadata => {
-        if (interaction_metadata.isChatInputCommand())
-        {
+        if (interaction_metadata.isChatInputCommand()) {
             const command = client.commands.get(interaction_metadata.commandName);
 
             if (!command) {
@@ -20,27 +20,25 @@ function initalizeBot(client, activitytype)
             }
 
             try {
-                if (process.env['blockList'].includes(interaction_metadata.user.id))
-                    await interaction_metadata.reply({ content: 'Uh oh, You\'re on **Meeny\'s Block List!** If you think this is a mistake, Try contacting support in the [Meeny Discord Server.](https://discord.gg/fVWFzyr9tg)', ephemeral: true });
+                if (process.env['banList'].includes(interaction_metadata.user.id))
+                    await interaction_metadata.reply({ content: 'Uh oh, You\'re on **Meeny\'s Ban List!** If you think this is a mistake, Try contacting support in the [Meeny Discord Server.](https://discord.gg/fVWFzyr9tg)', ephemeral: true });
                 else
                     await command.execute(interaction_metadata);
             }
-            catch (error)
-            {
+            catch (error) {
                 console.error(error);
                 await interaction_metadata.reply({ content: 'There was an error while using this command!', ephemeral: true });
             }
         }
 
-        else if (interaction_metadata.isButton()) {}
-        else if (interaction_metadata.isStringSelectMenu()) {}
+        else if (interaction_metadata.isButton()) { }
+        else if (interaction_metadata.isStringSelectMenu()) { }
     });
 
     client.login(env.getToken());
 }
 
-function deployCommands(cmdPath, files)
-{
+function deployCommands(cmdPath, files) {
     const path = require('node:path');
     const { REST } = require('@discordjs/rest');
     const { Routes } = require('discord.js');

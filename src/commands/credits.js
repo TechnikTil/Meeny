@@ -3,11 +3,11 @@ const watcher = require('../utils/watcher.js');
 
 module.exports = {
     data: {
-        'name': 'credits',
-        'type': 1,
-        'description': 'All of the people who worked/helped making this bot',
-        'integration_types': [1],
-        'contexts': [1],
+        name: 'credits',
+        type: 1,
+        description: 'All of the people who worked/helped making this bot',
+        integration_types: [1],
+        contexts: [1],
     },
 
     async execute(interaction_metadata) {
@@ -20,9 +20,3 @@ module.exports = {
         watcher.command(interaction_metadata);
     },
 };
-
-/*  Just incase they add intergration_types to the slashcommandbuilder :)
-    data: new SlashCommandBuilder()
-        .setName('credits')
-        .setDescription("All of the people who worked/helped making this bot"),
-*/

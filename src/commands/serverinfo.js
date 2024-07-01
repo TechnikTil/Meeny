@@ -3,28 +3,28 @@ const watcher = require('../utils/watcher.js');
 
 module.exports = {
     data: {
-        'name': 'serverinfo',
-        'type': 1,
-        'description': 'Show\'s you the info of this server!',
-        'integration_types': [0],
-        'contexts': [0],
+        name: 'serverinfo',
+        type: 1,
+        description: 'Show\'s you the info of this server!',
+        integration_types: [0],
+        contexts: [0],
     },
 
     async execute(interaction_metadata) {
-		const infoSelect = new StringSelectMenuBuilder()
-			.setCustomId('infoSelect')
-			.setPlaceholder('Click/Tap Me!')
-			.addOptions(
-				new StringSelectMenuOptionBuilder()
-					.setLabel('Server Info')
-					.setDescription('Information about this server.')
+        const infoSelect = new StringSelectMenuBuilder()
+            .setCustomId('infoSelect')
+            .setPlaceholder('Click/Tap Me!')
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setLabel('Server Info')
+                    .setDescription('Information about this server.')
                     .setEmoji('1256759278069612576')
-					.setValue('serverI'),
-				new StringSelectMenuOptionBuilder()
-					.setLabel('Members Info')
-					.setDescription('Member information about this server.')
+                    .setValue('serverI'),
+                new StringSelectMenuOptionBuilder()
+                    .setLabel('Members Info')
+                    .setDescription('Member information about this server.')
                     .setEmoji('1256759277465632858')
-					.setValue('membersI'),
+                    .setValue('membersI'),
             );
 
         const selection = new ActionRowBuilder()
@@ -36,18 +36,15 @@ module.exports = {
             .setDescription('Select a option!')
             .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
 
-        const infoReply = await interaction_metadata.reply({ embeds: [infoEmbed], components: [selection]});
+        const infoReply = await interaction_metadata.reply({ embeds: [infoEmbed], components: [selection] });
         const collector = await infoReply.createMessageComponentCollector({ componentType: ComponentType.StringSelect });
 
-        collector.on('collect', async i =>
-        {
-            if (i.customId === "infoSelect")
-            {
+        collector.on('collect', async i => {
+            if (i.customId === "infoSelect") {
                 const value = i.values[0];
-                if (value === "serverI")
-                {
+                if (value === "serverI") {
                     infoEmbed.setTitle(`${interaction_metadata.guild.name} Info`)
-                    .setDescription(`
+                        .setDescription(`
                         Name: ${interaction_metadata.guild.name} (${interaction_metadata.guild.id})
                         Description: ${interaction_metadata.guild.description}
                         Created at: ${interaction_metadata.guild.createdAt}
@@ -68,10 +65,9 @@ module.exports = {
                     if (process.env['watchList'].includes(interaction_metadata.user.id))
                         console.log(`${interaction_metadata.user.username} selected Server Info! for server ${interaction_metadata.guild.name} with the ID ${interaction_metadata.guild.id} - ${watcher.getCmdFile()}`);
                 }
-                if (value === "membersI")
-                {
+                if (value === "membersI") {
                     infoEmbed.setTitle(`${interaction_metadata.guild.name} Members Info`)
-                    .setDescription(`
+                        .setDescription(`
                         Owner: <@${interaction_metadata.guild.ownerId}> (${interaction_metadata.guild.ownerId})
                         Member Count: ${interaction_metadata.guild.memberCount} / ${interaction_metadata.guild.maximumMembers}
                         Amount of Roles: ${interaction_metadata.guild.roles.cache.size - 1}
@@ -91,13 +87,11 @@ module.exports = {
             }
         });
 
-        function getBitrate()
-        {
+        function getBitrate() {
             return `${interaction_metadata.guild.maximumBitrate}`.replace('000', 'kbps');
         }
 
-        function getVanityURL()
-        {
+        function getVanityURL() {
             if (interaction_metadata.guild.vanityURLCode != null)
                 return `${interaction_metadata.guild.vanityURLCode} (Used ${interaction_metadata.guild.vanityURLUses} times.)`;
             else
@@ -107,9 +101,3 @@ module.exports = {
         watcher.command(interaction_metadata);
     },
 };
-
-/*  Just incase they add intergration_types to the slashcommandbuilder :)
-    data: new SlashCommandBuilder()
-        .setName('serverinfo')
-        .setDescription("Show's you the info of this server!"),
-*/

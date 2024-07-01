@@ -3,11 +3,10 @@ const watcher = require('../utils/watcher.js');
 
 module.exports = {
     data: {
-        'name': 'meter',
-        'type': 1,
-        'description': 'Meeny\'s Meter you can use to check how gay and stupid you are (there is more but thats up to you)',
-        options:
-        [
+        name: 'meter',
+        type: 1,
+        description: 'Meeny\'s Meter you can use to check how gay and stupid you are (there is more but thats up to you)',
+        options: [
             {
                 type: 3,
                 name: 'meter',
@@ -21,8 +20,8 @@ module.exports = {
                 required: true,
             },
         ],
-        'integration_types': [0, 1],
-        'contexts': [0, 1, 2],
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
     },
 
     async execute(interaction_metadata) {
@@ -40,11 +39,3 @@ module.exports = {
         watcher.command(interaction_metadata, `Meter: ${meter}, Item: ${item}, Result: ${result}`);
     },
 };
-
-/*  Just incase they add intergration_types to the slashcommandbuilder :)
-    data: new SlashCommandBuilder()
-        .setName('meter')
-        .setDescription("Meeny's Meter you can use to check how gay and stupid you are (there is more but thats up to you)")
-        .addStringOption(option => option.setName('meter').setDescription('What Meter do you want?').setRequired(true))
-        .addStringOption(option => option.setName('item').setDescription('What Item/Person/Object (you get it) do you want?').setRequired(true)),
-*/
