@@ -1,8 +1,9 @@
-const env = require('./meenyEnv.js');
+const chalk = require('chalk');
+const meenyEnv = require('./meenyEnv.js');
 
 function initalizeBot(client, activitytype) {
     client.once('ready', () => {
-        console.log(`${client.user.tag} is now online!`);
+        console.log(chalk.green(`${client.user.tag} is now online!`));
 
         if (activitytype != null)
             client.user.setActivity('with your mom/dad lol', { type: activitytype });
@@ -15,7 +16,7 @@ function initalizeBot(client, activitytype) {
             const command = client.commands.get(interaction_metadata.commandName);
 
             if (!command) {
-                console.error(`No command matching ${interaction_metadata.commandName} was found.`);
+                console.error(chalk.red(`No command matching ${interaction_metadata.commandName} was found.`));
                 return;
             }
 
@@ -26,7 +27,7 @@ function initalizeBot(client, activitytype) {
                     await command.execute(interaction_metadata);
             }
             catch (error) {
-                console.error(error);
+                console.error(chalk.red(error));
                 await interaction_metadata.reply({ content: 'There was an error while using this command!', ephemeral: true });
             }
         }
@@ -35,7 +36,7 @@ function initalizeBot(client, activitytype) {
         else if (interaction_metadata.isStringSelectMenu()) { }
     });
 
-    client.login(env.getToken());
+    client.login(meenyEnv.token);
 }
 
 function deployCommands(cmdPath, files) {
@@ -51,10 +52,10 @@ function deployCommands(cmdPath, files) {
         commands.push(command.data);
     }
 
-    const rest = new REST({ version: '10' }).setToken(env.getToken());
+    const rest = new REST({ version: '10' }).setToken(meenyEnv.token);
 
-    rest.put(Routes.applicationCommands(env.getID()), { body: commands })
-        .then(() => console.log('Successfully updated commands.'))
+    rest.put(Routes.applicationCommands(meenyEnv.id), { body: commands })
+        .then(() => console.log(chalk.green('Successfully updated commands.')))
         .catch(console.error);
 }
 

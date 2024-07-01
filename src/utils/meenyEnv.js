@@ -1,10 +1,5 @@
 // I don't even know what im doing
-function getID() {
-    return process.env['botIDBETA'];;
-}
+const id = process.env['botIDBETA'];
+const token = process.env['tokenBETA'];
 
-function getToken() {
-    return process.env['tokenBETA'];;
-}
-
-module.exports = { getID, getToken }
+module.exports = { id, token }
