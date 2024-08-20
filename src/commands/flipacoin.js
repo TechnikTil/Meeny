@@ -2,14 +2,14 @@ const watcher = require('../utils/watcher.js');
 
 module.exports = {
     data: {
-        name: 'chancesof',
+        name: 'flipacoin',
         type: 1,
-        description: 'Chances of you using this command: 50%',
+        description: 'Flipping a coin to get either heads or tails.',
         options: [
             {
                 type: 3,
-                name: 'chance',
-                description: 'What do you want to test your luck on?',
+                name: 'reason',
+                description: 'What is the reason for doing this?',
                 required: true,
             },
         ],
@@ -18,14 +18,14 @@ module.exports = {
     },
 
     async execute(interaction_metadata) {
-        const chance = interaction_metadata.options.getString('chance');
-        const result = Math.floor(Math.random() * 101);
+        const reason = interaction_metadata.options.getString('reason');
+        const result = (Math.random() < 0.5) ? 'Heads' : 'Tails';
 
         await interaction_metadata.reply({
             embeds: [
                 {
-                    title: 'Chances of...',
-                    description: `The chances of **${chance}** is **${result}%**`,
+                    title: 'Flip a Coin',
+                    description: `Flipped a coin for **${reason}**\nIt landed on... **${result}**`,
                     footer: {
                         text: `Requested by: ${interaction_metadata.user.username}`
                     }
@@ -33,6 +33,6 @@ module.exports = {
             ]
         });
 
-        watcher.command(interaction_metadata, `Chances of: ${chance}, Result: ${result}`);
+        watcher.command(interaction_metadata, `Reason: ${reason}, Result: ${result}`);
     },
 };

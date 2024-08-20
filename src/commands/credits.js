@@ -11,11 +11,14 @@ module.exports = {
     },
 
     async execute(interaction_metadata) {
-        const socialsEmbed = new EmbedBuilder()
-            .setTitle(`Credits`)
-            .setDescription("Owner: CrusherNotDrip\n Co-Owner: NeonFurious\nServer: TechnikTil\nProfile Picture: jori (Owner of Hyper Metal) + maham (helped with making it a tiny bit better\nCoding Help: discord.js (It has a beginner guide if you never coded a discord.js bot before! https://discordjs.guide)\nAchievement Command URL: https://minecraftskinstealer.com");
-
-        await interaction_metadata.reply({ embeds: [socialsEmbed] });
+        await interaction_metadata.reply({
+            embeds: [
+                {
+                    title: 'Credits',
+                    description: 'Owner: CrusherNotDrip (Lead Programmer)\nServer Runner: TechnikTil\nProfile Picture: jori (Made the base pfp) + maham (Polished it a bit)\nMade with: discord.js'
+                }
+            ]
+        });
 
         watcher.command(interaction_metadata);
     },

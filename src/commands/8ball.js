@@ -1,4 +1,3 @@
-const { EmbedBuilder } = require('discord.js');
 const watcher = require('../utils/watcher.js');
 
 module.exports = {
@@ -29,14 +28,19 @@ module.exports = {
             'Try Asking Again'
         ];
 
-        const answer = Math.floor(Math.random() * 5);
+        const answer = Math.floor(Math.random() * possibleAnswers.length);
 
-        const eightBallEmbed = new EmbedBuilder()
-            .setTitle(`Meeny's 8Ball!`)
-            .setDescription(`**${interaction_metadata.user.username}** asked "${question}"\n And the answer is... ${possibleAnswers[answer]}`)
-            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
-
-        await interaction_metadata.reply({ embeds: [eightBallEmbed] });
+        await interaction_metadata.reply({
+            embeds: [
+                {
+                    title: 'Meeny\'s 8Ball!',
+                    description: `**${interaction_metadata.user.username}** asked "${question}"\n And the answer is... ${possibleAnswers[answer]}`,
+                    footer: {
+                        text: `Requested by: ${interaction_metadata.user.username}`
+                    }
+                }
+            ]
+        });
 
         watcher.command(interaction_metadata, `Question: ${question}, Answer: ${possibleAnswers[answer]}`);
     },

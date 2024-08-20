@@ -11,25 +11,41 @@ module.exports = {
     },
 
     async execute(interaction_metadata) {
-        const socialsButtons = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setLabel('GitHub (Source Code)')
-                .setStyle(ButtonStyle.Link)
-                .setURL('https://github.com/MeenyDiscord/Meeny/tree/Meeny-BETA')
-                .setEmoji('1256759276450349251'),
-            new ButtonBuilder()
-                .setLabel('Twitter (also known as X)')
-                .setStyle(ButtonStyle.Link)
-                .setURL('https://twitter.com/MeenyDiscord')
-                .setEmoji('1256759279294222437'),
-        );
-
-        const socialsEmbed = new EmbedBuilder()
-            .setTitle(`Meeny's Socials`)
-            .setDescription("Click a button below to visit one of them!");
-
-        await interaction_metadata.reply({ embeds: [socialsEmbed], components: [socialsButtons] });
+        await interaction_metadata.reply({
+            embeds: [
+                {
+                    title: 'Meeny\'s Socials',
+                    description: 'Click a button below to visit any one of meeny\'s socials.'
+                }
+            ],
+            components: [
+                {
+                    type: 1,
+                    components: [
+                        {
+                            type: 2,
+                            label: 'GitHub (Source Code)',
+                            style: 5,
+                            url: 'https://github.com/MeenyDiscord/Meeny/tree/Meeny-BETA',
+                            emoji: {
+                                name: 'twitter',
+                                id: '1256759276450349251'
+                            }
+                        },
+                        {
+                            type: 2,
+                            label: 'Twitter (also known as X)',
+                            style: 5,
+                            url: 'https://twitter.com/MeenyDiscord',
+                            emoji: {
+                                name: 'twitter',
+                                id: '1256759279294222437'
+                            }
+                        }
+                    ]
+                }
+            ]
+        });
 
         watcher.command(interaction_metadata);
     },

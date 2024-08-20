@@ -1,4 +1,3 @@
-const { EmbedBuilder } = require('discord.js');
 const watcher = require('../utils/watcher.js');
 
 module.exports = {
@@ -39,14 +38,19 @@ module.exports = {
             `${user} kicked ${target} in the balls, like, really hard.`
         ];
 
-        const response = Math.floor(Math.random() * 13);
+        const response = Math.floor(Math.random() * deaths.length);
 
-        const killEmbed = new EmbedBuilder()
-            .setTitle(`Meeny's Death Chamber`)
-            .setDescription(`${deaths[response]}`)
-            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
-
-        await interaction_metadata.reply({ embeds: [killEmbed] });
+        await interaction_metadata.reply({
+            embeds: [
+                {
+                    title: 'Meeny\'s Death Chamber',
+                    description: deaths[response],
+                    footer: {
+                        text: `Requested by: ${interaction_metadata.user.username}`
+                    }
+                }
+            ]
+        });
 
         watcher.command(interaction_metadata, `Target: ${target}, Cause of death: ${deaths[response]}`);
     },
