@@ -26,7 +26,7 @@ module.exports = {
         const updateEmbed = new EmbedBuilder()
             .setTitle(`Updates`)
             .setDescription('Select a option!')
-            .setFooter({ text: `The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) | Requested by: ${interaction_metadata.user.username}` });
+            .setFooter({ text: `Requested by: ${interaction_metadata.user.username}` });
 
         const updateReply = await interaction_metadata.reply({ embeds: [updateEmbed], components: [selection] });
         const collector = await updateReply.createMessageComponentCollector({ componentType: ComponentType.StringSelect });

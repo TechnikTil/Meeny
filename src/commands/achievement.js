@@ -4,7 +4,7 @@ module.exports = {
     data: {
         name: 'achievement',
         type: 1,
-        description: 'Replies with a Minecraft Achievement (Achievement Icon is Randomized) (WILL BE WORKING ON A NEW SYSTEM SOON!)',
+        description: 'Replies with a Minecraft Achievement (Achievement Icon is Randomized)',
         options: [
             {
                 type: 3,

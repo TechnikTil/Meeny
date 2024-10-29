@@ -1,3 +1,4 @@
+const { PermissionsBitField } = require('discord.js');
 const watcher = require('../utils/watcher.js');
 
 module.exports = {
@@ -18,9 +19,29 @@ module.exports = {
     },
 
     async execute(interaction_metadata) {
-        const message = interaction_metadata.options.getString('message');
+        var message = interaction_metadata.options.getString('message');
+
+        // You can't @ everyone/here/server role if the user doesn't have the permission.
+        if (!interaction_metadata.memberPermissions.has(PermissionsBitField.Flags.MentionEveryone))
+        {
+            message = removeMentions(message);
+        }
+
         await interaction_metadata.reply({ content: 'Sent Message!', ephemeral: true });
         await interaction_metadata.channel.send({ content: message });
         watcher.command(interaction_metadata, `Message: ${message}`);
+
+        function removeMentions(messageStr)
+        {
+            var newMsg = '';
+            const mentionSplit = messageStr.split('@');
+
+            for (mention in mentionSplit)
+            {
+                newMsg += mentionSplit[mention];
+            }
+
+            return newMsg;
+        }
     },
 };

@@ -1,4 +1,3 @@
-const { EmbedBuilder } = require('discord.js');
 const watcher = require('../utils/watcher.js');
 
 module.exports = {

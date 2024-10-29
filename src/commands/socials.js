@@ -1,4 +1,3 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const watcher = require('../utils/watcher.js');
 
 module.exports = {
@@ -28,8 +27,8 @@ module.exports = {
                             style: 5,
                             url: 'https://github.com/MeenyDiscord/Meeny/tree/Meeny-BETA',
                             emoji: {
-                                name: 'twitter',
-                                id: '1256759276450349251'
+                                name: 'github',
+                                id: '1300614258790367232'
                             }
                         },
                         {
@@ -39,7 +38,7 @@ module.exports = {
                             url: 'https://twitter.com/MeenyDiscord',
                             emoji: {
                                 name: 'twitter',
-                                id: '1256759279294222437'
+                                id: '1300614248476708884'
                             }
                         }
                     ]
