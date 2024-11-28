@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const meenyEnv = require('./meenyEnv.js');
+const meenyEnv = require('./botenv.js');
 
 function initalizeBot(client, activitytype) {
     client.once('ready', () => {

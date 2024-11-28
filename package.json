@@ -2,7 +2,7 @@
     "name": "meeny",
     "version": "1.0.0",
     "description": "Meeny is a Discord Application made by CrusherNotDrip.",
-    "main": "index.js",
+    "main": "src/index.js",
     "dependencies": {
         "chalk": "^4.1.2",
         "data-uri-to-buffer": "^6.0.2",
