@@ -1,12 +1,13 @@
 const watcher = require('../utils/watcher.js');
 const { AttachmentBuilder } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
+const chalk = require('chalk');
 
 module.exports = {
 	data: {
 		name: 'achievement',
 		type: 1,
-		description: 'Replies with a Minecraft Achievement (Achievement Icon is Randomized)',
+		description: 'Replies with a Minecraft Achievement!',
 		options: [
 			{
 				type: 3,
@@ -22,42 +23,56 @@ module.exports = {
 	async execute(interaction_metadata) {
 		const achievement = interaction_metadata.options.getString('achievement');
 
+		console.log(chalk.yellow('Getting ready to generate achievement...'));
+
 		const canvas = Canvas.createCanvas(1, 1);
 		const context = canvas.getContext('2d');
-
-		context.msImageSmoothingEnabled = false;
-		context.mozImageSmoothingEnabled = false;
-		context.webkitImageSmoothingEnabled = false;
 		context.imageSmoothingEnabled = false;
 
-		const image = await Canvas.loadImage('./assets/achievement/background.png');
-		canvas.width = image.width*2;
-		canvas.height = image.height*2;
-		context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
+		context.font = '8px "Minecraftia"';
+		context.fillStyle = 'white';
 
-		var achievementX = 60;
-		var achievementY = 28 + 8;
-		var curAchievementX = achievementX;
-		var undercaseLetters = '                               !"#$%&\'()*+,-./0123456789:;<=>?"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'
-		for(var i=0; i < achievement.length; i++)
+		var widthGeneration = 30 + context.measureText(achievement).width + 30;
+
+		if(widthGeneration < 160)
 		{
-			var letterText = achievement.charAt(i);
-			if(letterText != ' ')
-			{
-				if(letterText === letterText.toLowerCase())
-					letterText += '_l';
-
-				const letter = await Canvas.loadImage('./assets/achievement/text/' + letterText + '.png');
-				context.drawImage(letter, 0, 0, letter.width, letter.height, curAchievementX, achievementY, letter.width*2, letter.height*2);
-				curAchievementX += (letter.width*2)-4;
-			}
-			else
-				curAchievementX += 16-4;
+			widthGeneration = 160;
 		}
 
-		const attachment = new AttachmentBuilder(canvas.toBuffer('image/png'), {
+		canvas.width = widthGeneration;
+		canvas.height = 32;
+
+		const backgroundMiddle = await Canvas.loadImage('./assets/achievement/background/background_middle.png');
+
+		for(let i=0; i < widthGeneration - 8; i++)
+		{
+			context.drawImage(backgroundMiddle, 4+i, 0);
+		}
+
+		const backgroundLeft = await Canvas.loadImage('./assets/achievement/background/background_left.png');
+		context.drawImage(backgroundLeft, 0, 0);
+
+		const backgroundRight = await Canvas.loadImage('./assets/achievement/background/background_right.png');
+		context.drawImage(backgroundRight, widthGeneration - backgroundRight.width, 0);
+
+		const achievementGet = await Canvas.loadImage('./assets/achievement/achievementGet.png');
+		context.drawImage(achievementGet, 30, 7);
+
+		context.font = '8px "Minecraftia"';
+		context.fillStyle = 'white';
+		context.fillText(achievement, 30, 12 + (8 * 2));
+
+		const attachentCanvas = Canvas.createCanvas(canvas.width * 2, canvas.height * 2);
+		const attachentContext = attachentCanvas.getContext('2d');
+		attachentContext.imageSmoothingEnabled = false;
+
+		attachentContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, attachentCanvas.width, attachentCanvas.height);
+
+		const attachment = new AttachmentBuilder(attachentCanvas.toBuffer('image/png'), {
 			name: 'achievement.png'
 		});
+
+		console.log(chalk.yellow('Finished and sent achievement!'));
 
 		await interaction_metadata.reply({files: [attachment]});
 
