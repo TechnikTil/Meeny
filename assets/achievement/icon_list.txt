@@ -1,0 +1,11 @@
+grass_block - Grass Block
+diamond_chestplate - Diamond Chestplate
+enchanted_book - Enchanted Book
+ender_eye - Ender Eye
+flint_and_steel - Flint and Steel
+golden_apple - Golden Apple
+iron_chestplate - Iron Chestplate
+iron_ingot - Iron Ingot
+lava_bucket - Lava Bucket
+stone_pickaxe - Stone Pickaxe
+wooden_pickaxe - Wooden Pickaxe

@@ -14,7 +14,7 @@ module.exports = {
             embeds: [
                 {
                     title: 'Credits',
-                    description: 'Owner: CrusherNotDrip (Lead Programmer)\nServer Runner: TechnikTil\nProfile Picture: jori (Made the base pfp) + maham (Polished it a bit)\nMade with: discord.js'
+                    description: 'Owner: CrusherNotDrip (Lead Programmer)\nServer Runner: TechnikTil (Also reworked Achievement Command)\nProfile Picture: jori (Made the base pfp) + maham (Polished it a bit)\nMade with: discord.js'
                 }
             ]
         });
