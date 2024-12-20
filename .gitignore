@@ -1,4 +1,5 @@
 # Needed but shouldn't be pushed.
+build/
 node_modules/
 package-lock.json
 
