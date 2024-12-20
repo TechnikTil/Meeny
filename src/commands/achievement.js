@@ -1,7 +1,33 @@
 const watcher = require('../utils/watcher.js');
 const { AttachmentBuilder } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
+const fs = require('fs');
 const chalk = require('chalk');
+
+function loadIconList() {
+    try {
+        const data = fs.readFileSync('./assets/achievement/icon_list.txt', 'utf8');
+        const iconList = [];
+        const iconListPartOne = data.split('\n');
+
+        iconListPartOne.forEach(icon => {
+            const somethingCool = icon.split(' - ');
+            if (somethingCool.length === 2) {
+                iconList.push({
+                    name: somethingCool[1].trim(),
+                    value: somethingCool[0].trim()
+                });
+            }
+        });
+
+        return iconList;
+    } catch (err) {
+        console.error(chalk.red('Error reading icon list: ' + err));
+        throw err;
+    }
+}
+
+const iconList = loadIconList();
 
 module.exports = {
 	data: {
@@ -15,6 +41,19 @@ module.exports = {
 				description: 'What should the name of the achievement be?',
 				required: true,
 			},
+			{
+				type: 3,
+				name: 'icon',
+				description: 'What should the icon of the achievement be?',
+				required: false,
+				choices: iconList,
+			},
+			{
+				type: 11,
+				name: 'custom_icon',
+				description: 'Upload a custom icon for the achievement! Warning: Might look low quality!',
+				required: false,
+			}
 		],
 		integration_types: [0, 1],
 		contexts: [0, 1, 2],
@@ -22,8 +61,8 @@ module.exports = {
 
 	async execute(interaction_metadata) {
 		const achievement = interaction_metadata.options.getString('achievement');
-
-		console.log(chalk.yellow('Getting ready to generate achievement...'));
+		const icon = interaction_metadata.options.getString('icon');
+		const customIcon = interaction_metadata.options.get('custom_icon');
 
 		const canvas = Canvas.createCanvas(1, 1);
 		const context = canvas.getContext('2d');
@@ -32,7 +71,7 @@ module.exports = {
 		context.font = '8px "Minecraftia"';
 		context.fillStyle = 'white';
 
-		var widthGeneration = 30 + context.measureText(achievement).width + 30;
+		var widthGeneration = 30 + context.measureText(achievement).width + 10;
 
 		if(widthGeneration < 160)
 		{
@@ -60,7 +99,7 @@ module.exports = {
 
 		context.font = '8px "Minecraftia"';
 		context.fillStyle = 'white';
-		context.fillText(achievement, 30, 12 + (8 * 2));
+		context.fillText(achievement, 30, 14 + (8 * 2));
 
 		const attachentCanvas = Canvas.createCanvas(canvas.width * 2, canvas.height * 2);
 		const attachentContext = attachentCanvas.getContext('2d');
@@ -68,11 +107,29 @@ module.exports = {
 
 		attachentContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, attachentCanvas.width, attachentCanvas.height);
 
+		var achievementIcon = null;
+
+		if(customIcon != null)
+		{
+			achievementIcon = await Canvas.loadImage(customIcon.attachment.attachment);
+			attachentContext.imageSmoothingEnabled = true;
+		}
+		else
+		{
+			if(icon != null)
+				achievementIcon = await Canvas.loadImage('./assets/achievement/icons/' + icon + '.png');
+			else
+			{
+				const randomIndex = Math.floor(Math.random() * iconList.length);
+				achievementIcon = await Canvas.loadImage('./assets/achievement/icons/' + iconList[randomIndex].value + '.png');
+			}
+		}
+
+		attachentContext.drawImage(achievementIcon, 16, 16, Math.floor(achievementIcon.width * (32 / achievementIcon.height)), 32);
+
 		const attachment = new AttachmentBuilder(attachentCanvas.toBuffer('image/png'), {
 			name: 'achievement.png'
 		});
-
-		console.log(chalk.yellow('Finished and sent achievement!'));
 
 		await interaction_metadata.reply({files: [attachment]});
 
