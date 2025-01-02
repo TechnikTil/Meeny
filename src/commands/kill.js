@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+const fs = require('node:fs');
 const watcher = require('../utils/watcher.js');
 
 module.exports = {
@@ -19,25 +21,7 @@ module.exports = {
 
     async execute(interaction_metadata) {
         const target = interaction_metadata.options.getUser('target');
-        const user = `<@${interaction_metadata.user.id}>`;
-
-        const deaths = [
-            `${target} died.`,
-            `${target} doesn't die, the good ending.`,
-            `${target} died from a broken heart because ${user} rejected them.`,
-            `Oh noes! A meteor struck ${target}'s house!`,
-            `${target} respawned! Oh but sad news, ${user} spawnkilled them.`,
-            `Oh man, ${target} took 1 step into Reddit and instantly died.`,
-            `${target} died from being too unfunny.`,
-            `${target} blew their ears out from listening to Taylor Swift.`,
-            `${target} ascended into the sky from listening to Kanye West then died to fall damage.`,
-            `OOF. ${target} stepped on a land mine and died.`,
-            `${target} got flamed by ${user} in a rap battle.`,
-            `${target} became Skibidi Toilet and ${user} just ate Taco Bell...`,
-            `${user} had a baby! But ${target} did NOT want a part of that.`,
-            `${user} kicked ${target} in the balls, like, really hard.`
-        ];
-
+        const deaths = buildKillMessages(target, `<@${interaction_metadata.user.id}>`);
         const response = Math.floor(Math.random() * deaths.length);
 
         await interaction_metadata.reply({
@@ -55,3 +39,20 @@ module.exports = {
         watcher.command(interaction_metadata, `Target: ${target}, Cause of death: ${deaths[response]}`);
     },
 };
+
+var rawText = null;
+
+function buildKillMessages(target, user)
+{
+    if (rawText == null)
+    {
+        try {
+            rawText = fs.readFileSync('./assets/kill/messages.txt', 'utf8');
+        } catch (err) {
+            console.error(chalk.red('Error reading kill messages list: ' + err));
+            throw err;
+        }
+    }
+
+    return rawText.trim().replaceAll('{target}', target).replaceAll('{user}', user).split('\n');
+}

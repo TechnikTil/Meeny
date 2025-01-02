@@ -50,7 +50,7 @@ module.exports = {
 			},
 			{
 				type: 11,
-				name: 'custom_icon',
+				name: 'upload_icon',
 				description: 'Upload a custom icon for the achievement! Warning: Might look low quality!',
 				required: false,
 			}
@@ -62,7 +62,7 @@ module.exports = {
 	async execute(interaction_metadata) {
 		const achievement = interaction_metadata.options.getString('achievement');
 		const icon = interaction_metadata.options.getString('icon');
-		const customIcon = interaction_metadata.options.get('custom_icon');
+		const customIcon = interaction_metadata.options.get('upload_icon');
 
 		const canvas = Canvas.createCanvas(1, 1);
 		const context = canvas.getContext('2d');
