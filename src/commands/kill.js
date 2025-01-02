@@ -1,4 +1,20 @@
 const watcher = require('../utils/watcher.js');
+const fs = require('fs');
+const chalk = require('chalk');
+
+function loadDeathTexts()
+{
+    try
+    {
+        const data = fs.readFileSync('./assets/kill/deaths.txt', 'utf8');
+        return data.split('\n');
+    } catch (err) {
+        console.error(chalk.red('Error reading death list: ' + err));
+        throw err;
+    }
+}
+
+const deaths = loadDeathTexts();
 
 module.exports = {
     data: {
@@ -21,30 +37,15 @@ module.exports = {
         const target = interaction_metadata.options.getUser('target');
         const user = `<@${interaction_metadata.user.id}>`;
 
-        const deaths = [
-            `${target} died.`,
-            `${target} doesn't die, the good ending.`,
-            `${target} died from a broken heart because ${user} rejected them.`,
-            `Oh noes! A meteor struck ${target}'s house!`,
-            `${target} respawned! Oh but sad news, ${user} spawnkilled them.`,
-            `Oh man, ${target} took 1 step into Reddit and instantly died.`,
-            `${target} died from being too unfunny.`,
-            `${target} blew their ears out from listening to Taylor Swift.`,
-            `${target} ascended into the sky from listening to Kanye West then died to fall damage.`,
-            `OOF. ${target} stepped on a land mine and died.`,
-            `${target} got flamed by ${user} in a rap battle.`,
-            `${target} became Skibidi Toilet and ${user} just ate Taco Bell...`,
-            `${user} had a baby! But ${target} did NOT want a part of that.`,
-            `${user} kicked ${target} in the balls, like, really hard.`
-        ];
-
-        const response = Math.floor(Math.random() * deaths.length);
+        const response = deaths[Math.floor(Math.random() * deaths.length)];
+        var filteredResponse = response.replace('[user]', user);
+        filteredResponse = filteredResponse.replace('[target]', target);
 
         await interaction_metadata.reply({
             embeds: [
                 {
                     title: 'Meeny\'s Death Chamber',
-                    description: deaths[response],
+                    description: filteredResponse,
                     footer: {
                         text: `Requested by: ${interaction_metadata.user.username}`
                     }
