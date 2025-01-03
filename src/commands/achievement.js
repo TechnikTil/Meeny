@@ -133,6 +133,6 @@ module.exports = {
 
 		await interaction_metadata.reply({files: [attachment]});
 
-		watcher.command(interaction_metadata, `Name: ${achievement}`);
+		watcher.command(interaction_metadata, `Achievement: ${achievement}`);
 	},
 };
