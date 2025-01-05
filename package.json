@@ -2,7 +2,24 @@
     "name": "meeny",
     "version": "1.0.0",
     "description": "Meeny is a Discord Application made by CrusherNotDrip.",
+    "keywords": [],
+    "bugs": {
+        "url": "https://github.com/MeenyDiscord/Meeny/issues"
+    },
+    "license": "Apache-2.0",
+    "author": {
+        "name": "CrusherNotDrip",
+        "url": "https://crushernotdrip.github.io/"
+    },
+    "files": [
+        "assets",
+        "src"
+    ],
     "main": "src/index.js",
+    "repository": "github:MeenyDiscord/Meeny",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
     "dependencies": {
         "@napi-rs/canvas": "^0.1.65",
         "chalk": "^4.1.2",
@@ -15,11 +32,5 @@
         "node-domexception": "^2.0.1",
         "node-fetch": "^3.3.2",
         "web-streams-polyfill": "^4.0.0"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "CrusherNotDrip",
-    "license": "Apache-2.0"
+    }
 }

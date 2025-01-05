@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+const fs = require('node:fs');
 const watcher = require('../utils/watcher.js');
 const fs = require('fs');
 const chalk = require('chalk');
@@ -35,11 +37,8 @@ module.exports = {
 
     async execute(interaction_metadata) {
         const target = interaction_metadata.options.getUser('target');
-        const user = `<@${interaction_metadata.user.id}>`;
-
-        const response = deaths[Math.floor(Math.random() * deaths.length)];
-        var filteredResponse = response.replace('[user]', user);
-        filteredResponse = filteredResponse.replace('[target]', target);
+        const deaths = buildKillMessages(target, `<@${interaction_metadata.user.id}>`);
+        const response = Math.floor(Math.random() * deaths.length);
 
         await interaction_metadata.reply({
             embeds: [
@@ -56,3 +55,20 @@ module.exports = {
         watcher.command(interaction_metadata, `Target: ${target}, Cause of death: ${deaths[response]}`);
     },
 };
+
+var rawText = null;
+
+function buildKillMessages(target, user)
+{
+    if (rawText == null)
+    {
+        try {
+            rawText = fs.readFileSync('./assets/kill/messages.txt', 'utf8');
+        } catch (err) {
+            console.error(chalk.red('Error reading kill messages list: ' + err));
+            throw err;
+        }
+    }
+
+    return rawText.trim().replaceAll('{target}', target).replaceAll('{user}', user).split('\n');
+}
