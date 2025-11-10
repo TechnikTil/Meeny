@@ -1,0 +1,27 @@
+[
+	{
+		"title": "Meeny Credits",
+		"color": 3098834,
+		"fields": [
+			{
+				"name": "Owner",
+				"value": "- CrusherNotDrip"
+			},
+			{
+				"name": "Programmers",
+				"value": "- CrusherNotDrip (Lead)\n- TechnikTil"
+			},
+			{
+				"name": "Profile Picture",
+				"value": "- jori (Made the base pfp)\n- maham (Polished it a bit)"
+			},
+			{
+				"name": "Server Runner",
+				"value": "- TechnikTil"
+			}
+		],
+		"footer": {
+			"text": "Made with discord.js"
+		}
+	}
+]

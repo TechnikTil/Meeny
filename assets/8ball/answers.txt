@@ -1,0 +1,5 @@
+Yes
+No
+Maybe
+I don't know
+Try Asking Again
