@@ -1,0 +1,12 @@
+{
+	"[typescript]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[json]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "dprint.dprint"
+	}
+}
