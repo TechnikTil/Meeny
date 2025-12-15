@@ -8,3 +8,7 @@ package-lock.json
 
 # CrusherNotDrip
 docs/TODO.md
+
+# OS Leftovers
+*.DS_STORE
+desktop.ini
