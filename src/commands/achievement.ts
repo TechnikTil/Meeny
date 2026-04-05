@@ -1,4 +1,3 @@
-import Canvas from "@napi-rs/canvas";
 import chalk from "chalk";
 import {
 	APIApplicationCommandOptionChoice,
@@ -10,13 +9,30 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import fs from "fs";
-import { join } from "path";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import sharp, { Metadata, OutputInfo, OverlayOptions, Sharp } from "sharp";
+import { Readable } from "stream";
+import { MeenyCommand } from "../backend/command";
 import { MeenyWatcher } from "../backend/watcher";
+
+const charSize: number = 8;
+const gridCount: number = 16;
 
 const iconList: CommandOptionChoices = loadIconList();
 
-@RegisterCommand
+const fontSheetBuffer: Buffer = fs.readFileSync("assets/achievement/ascii.png");
+const {data: fontData, info: fontInfo} = await sharp(fontSheetBuffer).raw().toBuffer({resolveWithObject: true});
+
+const achievementGetBuffer: Buffer = fs.readFileSync("assets/achievement/achievementGet.png");
+const achievementGetData = await sharp(achievementGetBuffer).raw().toBuffer({resolveWithObject: true});
+
+const achievementBackground: Sharp[] = ["left", "middle", "right"].map(suffix =>
+	sharp(`assets/achievement/background/background_${suffix}.png`)
+);
+const backgroundMetadatas: Metadata[] = await Promise.all(achievementBackground.map(image => image.metadata()));
+const backgroundBuffers: {data: Buffer; info: OutputInfo;}[] = await Promise.all(
+	achievementBackground.map(image => image.raw().toBuffer({resolveWithObject: true})),
+);
+
 export class AchievementCommand extends MeenyCommand
 {
 	constructor()
@@ -66,95 +82,42 @@ export class AchievementCommand extends MeenyCommand
 			return;
 		}
 
-		const achievement: string = interaction_metadata.options.getString("achievement");
-		const icon: string = interaction_metadata.options.getString("icon");
-		const customIcon: Attachment = interaction_metadata.options.getAttachment("upload_icon");
+		const achievement: string = interaction_metadata.options.getString("achievement", true);
+		const icon: string | null = interaction_metadata.options.getString("icon");
+		const customIcon: Attachment | null = interaction_metadata.options.getAttachment("upload_icon");
 
-		const canvas: Canvas.Canvas = Canvas.createCanvas(1, 1);
-		const context: Canvas.SKRSContext2D = canvas.getContext("2d");
+		const {textWidth, textLayers} = constructText(achievement, [30, 18]);
 
-		context.font = "8px \"Minecraftia\"";
-		context.fillStyle = "white";
-		context.imageSmoothingEnabled = false;
+		const width: number = Math.max(textWidth + 40, 160);
+		const height: number = 32;
 
-		const widthGeneration = Math.max(30 + context.measureText(achievement).width + 10, 160);
+		const backgroundLayers: OverlayOptions[] = await constructBackground(width);
 
-		canvas.width = widthGeneration;
-		canvas.height = 32;
+		const achievementGetLayer: OverlayOptions = {
+			input: achievementGetData.data,
+			raw: achievementGetData.info,
+			left: 30,
+			top: 7,
+		};
 
-		const backgroundMiddle: Canvas.Image = await Canvas.loadImage(
-			"./assets/achievement/background/background_middle.png",
-		);
-
-		for (let i = 0; i < widthGeneration - 8; i++)
-		{
-			context.drawImage(backgroundMiddle, 4 + i, 0);
-		}
-
-		const backgroundLeft: Canvas.Image = await Canvas.loadImage(
-			"./assets/achievement/background/background_left.png",
-		);
-		context.drawImage(backgroundLeft, 0, 0);
-
-		const backgroundRight: Canvas.Image = await Canvas.loadImage(
-			"./assets/achievement/background/background_right.png",
-		);
-		context.drawImage(backgroundRight, widthGeneration - backgroundRight.width, 0);
-
-		const achievementGet: Canvas.Image = await Canvas.loadImage("./assets/achievement/achievementGet.png");
-		context.drawImage(achievementGet, 30, 7);
-
-		context.font = "8px \"Minecraftia\"";
-		context.fillStyle = "white";
-		context.fillText(achievement, 30, 14 + (8 * 2));
-
-		const attachentCanvas: Canvas.Canvas = Canvas.createCanvas(canvas.width * 2, canvas.height * 2);
-		const attachentContext: Canvas.SKRSContext2D = attachentCanvas.getContext("2d");
-		attachentContext.imageSmoothingEnabled = false;
-
-		attachentContext.drawImage(
-			canvas,
-			0,
-			0,
-			canvas.width,
-			canvas.height,
-			0,
-			0,
-			attachentCanvas.width,
-			attachentCanvas.height,
-		);
-
-		var achievementIcon: Canvas.Image = null;
-
-		if (customIcon != null)
-		{
-			attachentContext.imageSmoothingEnabled = true;
-			achievementIcon = await Canvas.loadImage(new URL(customIcon.url));
-		}
-		else if (icon != null)
-		{
-			achievementIcon = await Canvas.loadImage("./assets/achievement/icons/" + icon + ".png");
-		}
-		else
-		{
-			const randomIndex: number = Math.floor(Math.random() * iconList.length);
-			achievementIcon = await Canvas.loadImage(
-				"./assets/achievement/icons/" + iconList[randomIndex].value + ".png",
-			);
-		}
-
-		attachentContext.drawImage(
-			achievementIcon,
-			16,
-			16,
-			Math.floor(achievementIcon.width * (32 / achievementIcon.height)),
-			32,
-		);
-
-		const attachment: AttachmentBuilder = new AttachmentBuilder(attachentCanvas.toBuffer("image/png"), {
-			name: "achievement.png",
+		const achievementBuffer = await sharp({
+			create: {width, height, channels: 4, background: {r: 0, g: 0, b: 0, alpha: 0}},
+		}).composite([...backgroundLayers, ...textLayers, achievementGetLayer]).raw().toBuffer({
+			resolveWithObject: true,
 		});
 
+		const achievementImage: Sharp = sharp(achievementBuffer.data, {raw: achievementBuffer.info}).resize(
+			width * 4,
+			height * 4,
+			{kernel: "nearest"},
+		);
+
+		const iconLayer: OverlayOptions = await constructIcon(icon ?? customIcon);
+		achievementImage.composite([iconLayer]);
+
+		const attachment: AttachmentBuilder = new AttachmentBuilder(await achievementImage.png().toBuffer(), {
+			name: "achievement.png",
+		});
 		await interaction_metadata.reply({files: [attachment]});
 
 		MeenyWatcher.extraText = `Achievement: ${achievement}`;
@@ -162,6 +125,13 @@ export class AchievementCommand extends MeenyCommand
 }
 
 type CommandOptionChoices = APIApplicationCommandOptionChoice<string>[];
+
+interface CharMetrics
+{
+	width: number;
+	leftOffset: number;
+	pixelWidth: number;
+}
 
 function loadIconList(): CommandOptionChoices
 {
@@ -188,5 +158,149 @@ function loadIconList(): CommandOptionChoices
 	}
 }
 
-// load minecraftia
-Canvas.GlobalFonts.registerFromPath(join(process.cwd(), "assets/achievement/minecraftia.ttf"));
+async function constructBackground(width: number): Promise<OverlayOptions[]>
+{
+	const [leftBuffer, middleBuffer, rightBuffer] = backgroundBuffers;
+	const [leftMetadata, middleMetadata, rightMetadata] = backgroundMetadatas;
+
+	const middleWidth: number = width - leftMetadata.width - rightMetadata.width;
+	const tiledMiddleBuffer: Buffer = await sharp({
+		create: {
+			width: middleWidth,
+			height: middleMetadata.height,
+			channels: 4,
+			background: {r: 0, g: 0, b: 0, alpha: 0},
+		},
+	}).composite([{input: middleBuffer.data, raw: middleBuffer.info, tile: true}]).ensureAlpha().raw().toBuffer();
+
+	return [
+		{
+			input: tiledMiddleBuffer,
+			raw: {width: middleWidth, height: middleMetadata.height, channels: 4},
+			left: leftMetadata.width,
+			top: 0,
+		},
+		{input: leftBuffer.data, raw: leftBuffer.info, left: 0, top: 0},
+		{input: rightBuffer.data, raw: rightBuffer.info, left: width - rightMetadata.width, top: 0},
+	];
+}
+
+function constructText(achievement: string, textOffset: number[]): {textWidth: number; textLayers: OverlayOptions[];}
+{
+	const textLayers: OverlayOptions[] = [];
+	let textWidth: number = 0;
+
+	for (const char of achievement.split(""))
+	{
+		const charCode: number = char.charCodeAt(0);
+		const row: number = Math.floor(charCode / gridCount);
+		const col: number = charCode % gridCount;
+
+		const buffer: Buffer = getCharBuffer(col, row);
+		const metrics: CharMetrics = getCharMetrics(buffer);
+		const trimmedBuffer: Buffer = trimCharBuffer(buffer, metrics);
+
+		textLayers.push({
+			input: trimmedBuffer,
+			raw: {width: metrics.pixelWidth, height: charSize, channels: 4},
+			left: textOffset[0] + textWidth,
+			top: textOffset[1],
+		});
+
+		textWidth += metrics.width;
+	}
+
+	return {textLayers, textWidth};
+}
+
+async function constructIcon(icon: string | Attachment | null): Promise<OverlayOptions>
+{
+	if (!icon)
+	{
+		const randomIndex: number = Math.floor(Math.random() * iconList.length);
+		icon = iconList[randomIndex].value;
+	}
+
+	let bufferOutput: {data: Buffer; info: OutputInfo;};
+
+	if (icon instanceof Attachment)
+	{
+		const response: Response = await fetch(icon.url);
+		if (!response.body) throw "Could not fetch attachment. That's not good!";
+
+		const image: Sharp = sharp().resize(64, 64, {fit: "inside", kernel: "nearest"});
+		const nodeStream: Readable = Readable.fromWeb(response.body as any);
+		bufferOutput = await nodeStream.pipe(image).ensureAlpha().raw().toBuffer({resolveWithObject: true});
+	}
+	else
+	{
+		const image: Sharp = sharp(`assets/achievement/icons/${icon}.png`).resize(64, 64, {
+			fit: "inside",
+			kernel: "nearest",
+		});
+		bufferOutput = await image.ensureAlpha().raw().toBuffer({resolveWithObject: true});
+	}
+
+	const left: number = 32 + Math.floor((64 - bufferOutput.info.width) / 2);
+	const top: number = 32 + Math.floor((64 - bufferOutput.info.height) / 2);
+
+	return {input: bufferOutput.data, raw: bufferOutput.info, left, top};
+}
+
+function getCharBuffer(col: number, row: number): Buffer
+{
+	const out: Buffer = Buffer.alloc(charSize * charSize * 4);
+
+	for (let y = 0; y < charSize; y++)
+	{
+		for (let x = 0; x < charSize; x++)
+		{
+			const srcX: number = col * charSize + x;
+			const srcY: number = row * charSize + y;
+			const srcI: number = (srcY * fontInfo.width + srcX) * 4;
+			const dstI: number = (y * charSize + x) * 4;
+			fontData.copy(out, dstI, srcI, srcI + 4);
+		}
+	}
+
+	return out;
+}
+
+function getCharMetrics(charBuffer: Buffer): CharMetrics
+{
+	let minLeft: number = charSize;
+	let maxRight: number = -1;
+
+	for (let x = 0; x < charSize; x++)
+	{
+		for (let y = 0; y < charSize; y++)
+		{
+			const i: number = ((y * charSize + x) * 4) + 3;
+			if (charBuffer[i] > 0)
+			{
+				if (x < minLeft) minLeft = x;
+				if (x > maxRight) maxRight = x;
+			}
+		}
+	}
+
+	if (maxRight === -1) return {width: 4, leftOffset: 0, pixelWidth: 1};
+
+	const pixelWidth: number = (maxRight - minLeft) + 1;
+	return {pixelWidth, leftOffset: minLeft, width: pixelWidth + 1};
+}
+
+function trimCharBuffer(buffer: Buffer, metrics: CharMetrics): Buffer
+{
+	const out: Buffer = Buffer.alloc(metrics.pixelWidth * charSize * 4);
+	for (let y = 0; y < charSize; y++)
+	{
+		for (let x = 0; x < metrics.pixelWidth; x++)
+		{
+			const srcI: number = (y * charSize + x + metrics.leftOffset) * 4;
+			const dstI: number = (y * metrics.pixelWidth + x) * 4;
+			buffer.copy(out, dstI, srcI, srcI + 4);
+		}
+	}
+	return out;
+}

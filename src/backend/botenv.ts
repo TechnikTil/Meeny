@@ -1,6 +1,4 @@
 import chalk from "chalk";
-import dotenv from "dotenv";
-import { resolve } from "path";
 
 const DEFAULT_BAN_MESSAGE: string = "You are on the ban list, request cannot continue.";
 
@@ -15,12 +13,15 @@ export class MeenyEnvironment
 
 	constructor()
 	{
-		dotenv.config();
+		if (!process.env.botIDBETA || !process.env.tokenBETA)
+		{
+			throw "No ID and Token provided!";
+		}
 
 		this.id = process.env.botIDBETA;
 		this.token = process.env.tokenBETA;
-		this.watchList = MeenyEnvironment.parseEnvList(process.env.watchList);
-		this.banList = MeenyEnvironment.parseEnvList(process.env.banList);
+		this.watchList = MeenyEnvironment.parseEnvList(process.env.watchList || "[]");
+		this.banList = MeenyEnvironment.parseEnvList(process.env.banList || "[]");
 
 		this.banMessage = process.env.banMessage ?? DEFAULT_BAN_MESSAGE;
 	}

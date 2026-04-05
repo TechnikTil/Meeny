@@ -13,10 +13,9 @@ import {
 	StringSelectMenuInteraction,
 	StringSelectMenuOptionBuilder,
 } from "discord.js";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 import { MeenyWatcher } from "../backend/watcher";
 
-@RegisterCommand
 export class ServerInfoCommand extends MeenyCommand
 {
 	constructor()
@@ -52,7 +51,7 @@ export class ServerInfoCommand extends MeenyCommand
 		>().addComponents(infoSelect);
 
 		const infoEmbed: EmbedBuilder = new EmbedBuilder().setTitle(`Server Info`).setImage(
-			`${interaction_metadata.guild.iconURL()}`,
+			`${interaction_metadata.guild?.iconURL()}`,
 		).setDescription("Select a option!").setFooter({text: `Requested by: ${interaction_metadata.user.username}`});
 
 		const infoReply: InteractionResponse = await interaction_metadata.reply({
@@ -67,6 +66,8 @@ export class ServerInfoCommand extends MeenyCommand
 		{
 			if (i.customId === "infoSelect")
 			{
+				if (!interaction_metadata.guild) return;
+
 				const value: string = i.values[0];
 				if (value === "serverI")
 				{
@@ -117,12 +118,12 @@ export class ServerInfoCommand extends MeenyCommand
 
 		function getBitrate(): string
 		{
-			return `${interaction_metadata.guild.maximumBitrate}`.replace("000", "kbps");
+			return `${interaction_metadata.guild?.maximumBitrate}`.replace("000", "kbps");
 		}
 
 		function getVanityURL(): string
 		{
-			if (interaction_metadata.guild.vanityURLCode != null)
+			if (interaction_metadata.guild?.vanityURLCode != null)
 			{
 				return `${interaction_metadata.guild.vanityURLCode} (Used ${interaction_metadata.guild.vanityURLUses} times.)`;
 			}

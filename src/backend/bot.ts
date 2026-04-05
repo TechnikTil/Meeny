@@ -1,25 +1,24 @@
 import chalk from "chalk";
 import {
 	ActivityType,
-	CacheType,
 	Client,
 	GatewayIntentBits,
 	Interaction,
-	RepliableInteraction,
 	REST,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	Routes,
 	SlashCommandBuilder,
 } from "discord.js";
 import { format } from "node:util";
+import commandClasses from "../commands";
 import { MeenyEnvironment } from "./botenv";
+import { MeenyCommand } from "./command";
 import { MeenyWatcher } from "./watcher";
 
 export var botEnv: MeenyEnvironment = new MeenyEnvironment();
 
 export class MeenyBot
 {
-	static commandClasses: typeof MeenyCommand[] = [];
 	static commandEntries: Map<string, MeenyCommand> = new Map<string, MeenyCommand>();
 
 	public static client: Client;
@@ -36,8 +35,9 @@ export class MeenyBot
 
 		await MeenyBot.updateCommands();
 
-		MeenyBot.client.once("ready", () =>
+		MeenyBot.client.once("clientReady", () =>
 		{
+			if (!MeenyBot.client.user) return;
 			console.log(chalk.green(`${MeenyBot.client.user.tag} is now online!`));
 
 			MeenyBot.client.user.setActivity("with your mom/dad lol", {type: ActivityType.Playing});
@@ -57,12 +57,12 @@ export class MeenyBot
 			return;
 		}
 
-		if (!interaction_metadata.isChatInputCommand())
+		if (!interaction_metadata.isChatInputCommand() || interaction_metadata.replied || interaction_metadata.deferred)
 		{
 			return;
 		}
 
-		const command: MeenyCommand = MeenyBot.commandEntries.get(interaction_metadata.commandName);
+		const command: MeenyCommand | undefined = MeenyBot.commandEntries.get(interaction_metadata.commandName);
 
 		if (command == null)
 		{
@@ -78,11 +78,11 @@ export class MeenyBot
 		catch (e)
 		{
 			console.error(e);
-			await interaction_metadata.reply({
-				content: "There was an error running your command properly!\n\nStack below:```" + format(e) + "```",
-				flags: "Ephemeral",
-			});
-			return;
+
+			const message: string = "There was an error running your command properly!\n\nStack below:```" + format(e)
+				+ "```";
+
+			await interaction_metadata.reply({content: message, flags: "Ephemeral"});
 		}
 	}
 
@@ -90,9 +90,9 @@ export class MeenyBot
 	{
 		const commandData: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 
-		for (const commandClass of MeenyBot.commandClasses)
+		for (const commandClass of commandClasses)
 		{
-			const command = new commandClass(undefined, undefined);
+			const command = new commandClass("unknown", new SlashCommandBuilder());
 			const name = command.name;
 			const data = command.data;
 
@@ -107,35 +107,5 @@ export class MeenyBot
 		}
 
 		await MeenyBot.rest.put(Routes.applicationCommands(botEnv.id), {body: commandData});
-	}
-
-	public static registerCommand(command: typeof MeenyCommand): void
-	{
-		MeenyBot.commandClasses.push(command);
-	}
-}
-
-export function RegisterCommand<T extends typeof MeenyCommand>(cls: T): T
-{
-	MeenyBot.registerCommand(cls);
-	return cls;
-}
-
-export class MeenyCommand
-{
-	public name: string;
-	data: SlashCommandBuilder;
-
-	constructor(name: string, data: SlashCommandBuilder)
-	{
-		this.name = name;
-		this.data = data;
-
-		this.data.setName(this.name);
-	}
-
-	async execute(interaction_metadata: Interaction): Promise<void>
-	{
-		throw new Error("The `execute` function for " + this.name + " must be overriden!");
 	}
 }

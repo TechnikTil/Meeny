@@ -1,10 +1,9 @@
 import chalk from "chalk";
 import { ApplicationIntegrationType, Interaction, InteractionContextType, SlashCommandBuilder, User } from "discord.js";
 import fs from "fs";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 import { MeenyWatcher } from "../backend/watcher";
 
-@RegisterCommand
 export class KillCommand extends MeenyCommand
 {
 	public killMessages: string[] = [];
@@ -50,7 +49,7 @@ export class KillCommand extends MeenyCommand
 			return;
 		}
 
-		const target: User = interaction_metadata.options.getUser("target");
+		const target: User = interaction_metadata.options.getUser("target", true);
 		const response: string = this.buildKillMessage(target, interaction_metadata.user);
 
 		await interaction_metadata.reply({

@@ -1,9 +1,8 @@
 import chalk from "chalk";
 import { ApplicationIntegrationType, Interaction, InteractionContextType, SlashCommandBuilder } from "discord.js";
 import fs from "fs";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 
-@RegisterCommand
 export class CreditsCommand extends MeenyCommand
 {
 	creditsEmbed: any[];

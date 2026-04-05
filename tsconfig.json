@@ -1,19 +1,16 @@
 {
 	"compilerOptions": {
-		"outDir": "build",
 		"target": "ESNext",
-		"module": "CommonJS",
-		"moduleResolution": "node",
-		"strict": false,
-		"allowJs": true,
-		"strictNullChecks": false,
-		"esModuleInterop": true,
-		"experimentalDecorators": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"useDefineForClassFields": false
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"types": ["bun-types"],
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noEmit": true
 	},
-	"include": [
-		"src"
-	]
+	"include": ["src/**/*.ts"]
 }

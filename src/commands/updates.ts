@@ -13,9 +13,8 @@ import {
 	StringSelectMenuInteraction,
 	StringSelectMenuOptionBuilder,
 } from "discord.js";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 
-@RegisterCommand
 export class UpdatesCommand extends MeenyCommand
 {
 	constructor()

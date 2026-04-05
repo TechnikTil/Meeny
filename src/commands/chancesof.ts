@@ -1,8 +1,7 @@
 import { ApplicationIntegrationType, Interaction, InteractionContextType, SlashCommandBuilder } from "discord.js";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 import { MeenyWatcher } from "../backend/watcher";
 
-@RegisterCommand
 export class ChancesOfCommand extends MeenyCommand
 {
 	constructor()
@@ -35,7 +34,7 @@ export class ChancesOfCommand extends MeenyCommand
 			return;
 		}
 
-		const chance: string = interaction_metadata.options.getString("chance");
+		const chance: string = interaction_metadata.options.getString("chance", true);
 		const result: number = Math.floor(Math.random() * 101);
 
 		await interaction_metadata.reply({

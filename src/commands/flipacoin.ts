@@ -1,10 +1,7 @@
-import chalk from "chalk";
 import { ApplicationIntegrationType, Interaction, InteractionContextType, SlashCommandBuilder } from "discord.js";
-import fs from "fs";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 import { MeenyWatcher } from "../backend/watcher";
 
-@RegisterCommand
 export class FlipACoinCommand extends MeenyCommand
 {
 	constructor()
@@ -37,7 +34,7 @@ export class FlipACoinCommand extends MeenyCommand
 			return;
 		}
 
-		const reason: string = interaction_metadata.options.getString("reason");
+		const reason: string = interaction_metadata.options.getString("reason", true);
 		const result: string = (Math.random() < 0.5) ? "Heads" : "Tails";
 
 		await interaction_metadata.reply({

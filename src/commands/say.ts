@@ -5,10 +5,9 @@ import {
 	PermissionsBitField,
 	SlashCommandBuilder,
 } from "discord.js";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 import { MeenyWatcher } from "../backend/watcher";
 
-@RegisterCommand
 export class SayCommand extends MeenyCommand
 {
 	constructor()
@@ -41,7 +40,7 @@ export class SayCommand extends MeenyCommand
 			return;
 		}
 
-		var message: string = interaction_metadata.options.getString("message");
+		var message: string = interaction_metadata.options.getString("message", true);
 
 		// You can't @ everyone/here/server role if the user doesn't have the permission.
 		if (
@@ -54,7 +53,7 @@ export class SayCommand extends MeenyCommand
 
 		await interaction_metadata.reply({content: "Sending Message...", flags: "Ephemeral"});
 
-		if (interaction_metadata.channel != null)
+		if (interaction_metadata.channel != null && "send" in interaction_metadata.channel)
 		{
 			await interaction_metadata.channel.send({content: message});
 		}

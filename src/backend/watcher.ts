@@ -4,7 +4,7 @@ import { botEnv } from "./bot";
 
 export class MeenyWatcher
 {
-	public static extraText: string = null;
+	public static extraText: string | null = null;
 
 	public static command(interaction: Interaction): void
 	{

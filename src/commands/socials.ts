@@ -1,7 +1,6 @@
 import { ApplicationIntegrationType, Interaction, InteractionContextType, SlashCommandBuilder } from "discord.js";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 
-@RegisterCommand
 export class SocialCommand extends MeenyCommand
 {
 	constructor()

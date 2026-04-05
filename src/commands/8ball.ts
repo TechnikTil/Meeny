@@ -1,10 +1,9 @@
 import chalk from "chalk";
 import { ApplicationIntegrationType, Interaction, InteractionContextType, SlashCommandBuilder } from "discord.js";
 import fs from "fs";
-import { MeenyCommand, RegisterCommand } from "../backend/bot";
+import { MeenyCommand } from "../backend/command";
 import { MeenyWatcher } from "../backend/watcher";
 
-@RegisterCommand
 export class EightBallCommand extends MeenyCommand
 {
 	public possibleAnswers: string[] = [];
@@ -50,7 +49,7 @@ export class EightBallCommand extends MeenyCommand
 			return;
 		}
 
-		const question: string = interaction_metadata.options.getString("question");
+		const question: string = interaction_metadata.options.getString("question", true);
 		const answer: number = Math.floor(Math.random() * this.possibleAnswers.length);
 
 		await interaction_metadata.reply({
